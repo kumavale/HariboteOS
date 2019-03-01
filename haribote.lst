@@ -1,13 +1,31 @@
      1                                  ; haribote-os
      2                                  ; TAB=4
      3                                  
-     4                                  		ORG		0xc200		; 0xc200 <- 0x8000 + 0x4200
-     5                                  										; Where on memory this program will be loaded
-     6                                  
-     7 00000000 B013                    		MOV		AL, 0x13  ; VGA graphics, 320x200x8bit
-     8 00000002 B400                    		MOV		AH, 0x00
-     9 00000004 CD10                    		INT		0x10
-    10                                  
-    11                                  fin:
-    12 00000006 F4                      		HLT
-    13 00000007 EBFD                    		JMP		fin
+     4                                  ; BOOT_INFO
+     5                                  CYLS	EQU		0x0ff0
+     6                                  LEDS	EQU		0x0ff1
+     7                                  VMODE	EQU		0x0ff2
+     8                                  SCRNX	EQU		0x0ff4
+     9                                  SCRNY	EQU		0x0ff6
+    10                                  VRAM	EQU		0x0ff8
+    11                                  
+    12                                  			ORG		0xc200		; 0xc200 <- 0x8000 + 0x4200
+    13                                  											; Where on memory this program will be loaded
+    14                                  
+    15 00000000 B013                    			MOV		AL, 0x13  ; VGA graphics, 320x200x8bit
+    16 00000002 B400                    			MOV		AH, 0x00
+    17 00000004 CD10                    			INT		0x10
+    18                                  
+    19 00000006 C606F20F08              			MOV		BYTE	[VMODE], 8
+    20 0000000B C706F40F4001            			MOV		WORD	[SCRNX], 320
+    21 00000011 C706F60FC800            			MOV		WORD	[SCRNY], 200
+    22 00000017 66C706F80F00000A00      			MOV		DWORD	[VRAM], 0x000a0000
+    23                                  
+    24                                  ; LED state on keyboard from BIOS
+    25 00000020 B402                    			MOV		AH, 0x02
+    26 00000022 CD16                    			INT		0x16      ; keyboard BIOS
+    27 00000024 A2F10F                  			MOV		[LEDS], AL
+    28                                  
+    29                                  fin:
+    30 00000027 F4                      			HLT
+    31 00000028 EBFD                    			JMP		fin

@@ -35,75 +35,75 @@
     34 00000058 8ED8                            MOV     DS, AX
     35                                  
     36                                  ; Read Disk
-    37 0000005A B82008                  				MOV			AX, 0x0820
-    38 0000005D 8EC0                    				MOV			ES, AX
-    39 0000005F B500                    				MOV			CH, 0           ; シリンダ番号0
-    40 00000061 B600                    				MOV			DH, 0						; ヘッド番号0
-    41 00000063 B102                    				MOV			CL, 2						; セクタ番号2
+    37 0000005A B82008                          MOV      AX, 0x0820
+    38 0000005D 8EC0                            MOV      ES, AX
+    39 0000005F B500                            MOV      CH, 0           ; シリンダ番号0
+    40 00000061 B600                            MOV      DH, 0           ; ヘッド番号0
+    41 00000063 B102                            MOV      CL, 2           ; セクタ番号2
     42                                  
     43                                  readloop:
-    44 00000065 BE0000                  				MOV			SI, 0           ; 失敗回数のリセット
+    44 00000065 BE0000                          MOV      SI, 0           ; 失敗回数のリセット
     45                                  
     46                                  retry:
-    47 00000068 B402                    				MOV			AH, 0x02				; INT命令用
-    48 0000006A B001                    				MOV			AL, 1
-    49 0000006C BB0000                  				MOV			BX, 0
-    50 0000006F B200                    				MOV			DL, 0x00				; ドライブ番号0 <--①
-    51 00000071 CD13                    				INT			0x13    				; disk BIOSコール(AH=0x02) <--②-1
-    52 00000073 7310                    				JNC			next						; エラーがなければnextへ
-    53 00000075 83C601                  				ADD			SI, 1						; SIレジスタ(失敗回数) + 1
-    54 00000078 83FE05                  				CMP			SI, 5						; SIと5を比較
-    55 0000007B 7335                    				JAE			error						; SI >= 5のときerrorへ
-    56 0000007D B400                    				MOV			AH, 0x00				; INT命令用
-    57 0000007F B200                    				MOV			DL, 0x00				; ドライブ番号0
-    58 00000081 CD13                    				INT			0x13						; disk BIOSコール(AH=0x00) <--②-2
-    59 00000083 EBE3                    				JMP			retry
+    47 00000068 B402                            MOV      AH, 0x02        ; INT命令用
+    48 0000006A B001                            MOV      AL, 1
+    49 0000006C BB0000                          MOV      BX, 0
+    50 0000006F B200                            MOV      DL, 0x00        ; ドライブ番号0 <--①
+    51 00000071 CD13                            INT      0x13            ; disk BIOSコール(AH=0x02) <--②-1
+    52 00000073 7310                            JNC      next            ; エラーがなければnextへ
+    53 00000075 83C601                          ADD      SI, 1           ; SIレジスタ(失敗回数) + 1
+    54 00000078 83FE05                          CMP      SI, 5           ; SIと5を比較
+    55 0000007B 7335                            JAE      error           ; SI >= 5のときerrorへ
+    56 0000007D B400                            MOV      AH, 0x00        ; INT命令用
+    57 0000007F B200                            MOV      DL, 0x00        ; ドライブ番号0
+    58 00000081 CD13                            INT      0x13            ; disk BIOSコール(AH=0x00) <--②-2
+    59 00000083 EBE3                            JMP      retry
     60                                  
     61                                  
     62                                  next:
-    63 00000085 8CC0                    				MOV			AX, ES					; アドレスを0x200(=512=1セクタ)進める
-    64 00000087 83C020                  				ADD			AX, 0x20
-    65 0000008A 8EC0                    				MOV			ES, AX					; ADD ES, 0x20という命令が無い
-    66 0000008C 80C101                  				ADD			CL, 1						; CL(セクタ番号)を1増やす
-    67 0000008F 80F912                  				CMP			CL, 18					; CLと18を比較
-    68 00000092 76D1                    				JBE			readloop				; CL <= 18の時readloopへ
-    69 00000094 B101                    				MOV			CL, 1						; CL=1
-    70 00000096 80C601                  				ADD			DH, 1						; DH(ヘッダ番号)を1増やす
-    71 00000099 80FE02                  				CMP			DH, 2						; DHと2を比較
-    72 0000009C 72C7                    				JB			readloop				; DH < 2の時readloopへ
-    73 0000009E B600                    				MOV			DH, 0						; DH=0
-    74 000000A0 80C501                  				ADD			CH, 1						; CH(シリンダ番号)を1増やす
-    75 000000A3 80FD0A                  				CMP			CH, CYLS				; CHとCYLS(=10)を比較
-    76 000000A6 72BD                    				JB			readloop				; CH < CYLSの時readloopへ
+    63 00000085 8CC0                            MOV      AX, ES          ; アドレスを0x200(=512=1セクタ)進める
+    64 00000087 83C020                          ADD      AX, 0x20
+    65 0000008A 8EC0                            MOV      ES, AX          ; ADD ES, 0x20という命令が無い
+    66 0000008C 80C101                          ADD      CL, 1           ; CL(セクタ番号)を1増やす
+    67 0000008F 80F912                          CMP      CL, 18          ; CLと18を比較
+    68 00000092 76D1                            JBE      readloop        ; CL <= 18の時readloopへ
+    69 00000094 B101                            MOV      CL, 1           ; CL=1
+    70 00000096 80C601                          ADD      DH, 1           ; DH(ヘッダ番号)を1増やす
+    71 00000099 80FE02                          CMP      DH, 2           ; DHと2を比較
+    72 0000009C 72C7                            JB      readloop         ; DH < 2の時readloopへ
+    73 0000009E B600                            MOV      DH, 0           ; DH=0
+    74 000000A0 80C501                          ADD      CH, 1           ; CH(シリンダ番号)を1増やす
+    75 000000A3 80FD0A                          CMP      CH, CYLS        ; CHとCYLS(=10)を比較
+    76 000000A6 72BD                            JB      readloop         ; CH < CYLSの時readloopへ
     77                                  
-    78 000000A8 882EF00F                				MOV			[0x0ff0], CH    ; IPLがどこまで読んだのかをメモ
-    79 000000AC E9(00C2)                				JMP			0xc200
+    78 000000A8 882EF00F                        MOV      [0x0ff0], CH    ; IPLがどこまで読んだのかをメモ
+    79 000000AC E9(00C2)                        JMP      0xc200
     80                                  
     81                                  fin:
-    82 000000AF F4                      				HLT
-    83 000000B0 EBFD                    				JMP			fin
+    82 000000AF F4                              HLT
+    83 000000B0 EBFD                            JMP      fin
     84                                  
     85                                  error:
-    86 000000B2 BE[C700]                				MOV			SI, msg					; SIにmsgのメモリ番地を代入
+    86 000000B2 BE[C700]                        MOV      SI, msg         ; SIにmsgのメモリ番地を代入
     87                                  
     88                                  putloop:
-    89 000000B5 8A04                            MOV     AL, [SI]        ; BYTE (accumulator low)
-    90 000000B7 83C601                          ADD     SI, 1           ; increment
-    91 000000BA 3C00                            CMP     AL, 0           ; compare (<end msg>)
-    92 000000BC 74F1                            JE      fin             ; jump to fin if equal to 0
-    93 000000BE B40E                            MOV     AH, 0x0e        ; AH = 0x0e
-    94 000000C0 BB0F00                          MOV     BX, 15          ; BH = 0, BL = <color code>
-    95 000000C3 CD10                            INT     0x10            ; interrupt BIOS
+    89 000000B5 8A04                            MOV     AL, [SI]         ; BYTE (accumulator low)
+    90 000000B7 83C601                          ADD     SI, 1            ; increment
+    91 000000BA 3C00                            CMP     AL, 0            ; compare (<end msg>)
+    92 000000BC 74F1                            JE      fin              ; jump to fin if equal to 0
+    93 000000BE B40E                            MOV     AH, 0x0e         ; AH = 0x0e
+    94 000000C0 BB0F00                          MOV     BX, 15           ; BH = 0, BL = <color code>
+    95 000000C3 CD10                            INT     0x10             ; interrupt BIOS
     96 000000C5 EBEE                            JMP     putloop
     97                                  
     98                                  msg:
     99 000000C7 0A0A                            DB      0x0a, 0x0a
-   100 000000C9 6C6F6164206572726F-             DB      "load error"    ; Error message
+   100 000000C9 6C6F6164206572726F-             DB      "load error"     ; Error message
    100 000000D2 72                 
    101 000000D3 0A                              DB      0x0a
-   102 000000D4 00                              DB      0               ; end msg
+   102 000000D4 00                              DB      0                ; end msg
    103                                  
    104 000000D5 00<rept>                        TIMES   0x7dfe-0x7c00-($-$$)  DB 0
    105                                  
    106                                  ; END BS_BootCode
-   107 000001FE 55AA                            DB      0x55, 0xaa      ; BS_BootSign, boot signature
+   107 000001FE 55AA                            DB      0x55, 0xaa       ; BS_BootSign, boot signature

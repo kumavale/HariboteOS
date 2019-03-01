@@ -34,74 +34,74 @@ entry:
         MOV     DS, AX
 
 ; Read Disk
-				MOV			AX, 0x0820
-				MOV			ES, AX
-				MOV			CH, 0           ; シリンダ番号0
-				MOV			DH, 0						; ヘッド番号0
-				MOV			CL, 2						; セクタ番号2
+        MOV      AX, 0x0820
+        MOV      ES, AX
+        MOV      CH, 0           ; シリンダ番号0
+        MOV      DH, 0           ; ヘッド番号0
+        MOV      CL, 2           ; セクタ番号2
 
 readloop:
-				MOV			SI, 0           ; 失敗回数のリセット
+        MOV      SI, 0           ; 失敗回数のリセット
 
 retry:
-				MOV			AH, 0x02				; INT命令用
-				MOV			AL, 1
-				MOV			BX, 0
-				MOV			DL, 0x00				; ドライブ番号0 <--①
-				INT			0x13    				; disk BIOSコール(AH=0x02) <--②-1
-				JNC			next						; エラーがなければnextへ
-				ADD			SI, 1						; SIレジスタ(失敗回数) + 1
-				CMP			SI, 5						; SIと5を比較
-				JAE			error						; SI >= 5のときerrorへ
-				MOV			AH, 0x00				; INT命令用
-				MOV			DL, 0x00				; ドライブ番号0
-				INT			0x13						; disk BIOSコール(AH=0x00) <--②-2
-				JMP			retry
+        MOV      AH, 0x02        ; INT命令用
+        MOV      AL, 1
+        MOV      BX, 0
+        MOV      DL, 0x00        ; ドライブ番号0 <--①
+        INT      0x13            ; disk BIOSコール(AH=0x02) <--②-1
+        JNC      next            ; エラーがなければnextへ
+        ADD      SI, 1           ; SIレジスタ(失敗回数) + 1
+        CMP      SI, 5           ; SIと5を比較
+        JAE      error           ; SI >= 5のときerrorへ
+        MOV      AH, 0x00        ; INT命令用
+        MOV      DL, 0x00        ; ドライブ番号0
+        INT      0x13            ; disk BIOSコール(AH=0x00) <--②-2
+        JMP      retry
 
 
 next:
-				MOV			AX, ES					; アドレスを0x200(=512=1セクタ)進める
-				ADD			AX, 0x20
-				MOV			ES, AX					; ADD ES, 0x20という命令が無い
-				ADD			CL, 1						; CL(セクタ番号)を1増やす
-				CMP			CL, 18					; CLと18を比較
-				JBE			readloop				; CL <= 18の時readloopへ
-				MOV			CL, 1						; CL=1
-				ADD			DH, 1						; DH(ヘッダ番号)を1増やす
-				CMP			DH, 2						; DHと2を比較
-				JB			readloop				; DH < 2の時readloopへ
-				MOV			DH, 0						; DH=0
-				ADD			CH, 1						; CH(シリンダ番号)を1増やす
-				CMP			CH, CYLS				; CHとCYLS(=10)を比較
-				JB			readloop				; CH < CYLSの時readloopへ
+        MOV      AX, ES          ; アドレスを0x200(=512=1セクタ)進める
+        ADD      AX, 0x20
+        MOV      ES, AX          ; ADD ES, 0x20という命令が無い
+        ADD      CL, 1           ; CL(セクタ番号)を1増やす
+        CMP      CL, 18          ; CLと18を比較
+        JBE      readloop        ; CL <= 18の時readloopへ
+        MOV      CL, 1           ; CL=1
+        ADD      DH, 1           ; DH(ヘッダ番号)を1増やす
+        CMP      DH, 2           ; DHと2を比較
+        JB      readloop         ; DH < 2の時readloopへ
+        MOV      DH, 0           ; DH=0
+        ADD      CH, 1           ; CH(シリンダ番号)を1増やす
+        CMP      CH, CYLS        ; CHとCYLS(=10)を比較
+        JB      readloop         ; CH < CYLSの時readloopへ
 
-				MOV			[0x0ff0], CH    ; IPLがどこまで読んだのかをメモ
-				JMP			0xc200
+        MOV      [0x0ff0], CH    ; IPLがどこまで読んだのかをメモ
+        JMP      0xc200
 
 fin:
-				HLT
-				JMP			fin
+        HLT
+        JMP      fin
 
 error:
-				MOV			SI, msg					; SIにmsgのメモリ番地を代入
+        MOV      SI, msg         ; SIにmsgのメモリ番地を代入
 
 putloop:
-        MOV     AL, [SI]        ; BYTE (accumulator low)
-        ADD     SI, 1           ; increment
-        CMP     AL, 0           ; compare (<end msg>)
-        JE      fin             ; jump to fin if equal to 0
-        MOV     AH, 0x0e        ; AH = 0x0e
-        MOV     BX, 15          ; BH = 0, BL = <color code>
-        INT     0x10            ; interrupt BIOS
+        MOV     AL, [SI]         ; BYTE (accumulator low)
+        ADD     SI, 1            ; increment
+        CMP     AL, 0            ; compare (<end msg>)
+        JE      fin              ; jump to fin if equal to 0
+        MOV     AH, 0x0e         ; AH = 0x0e
+        MOV     BX, 15           ; BH = 0, BL = <color code>
+        INT     0x10             ; interrupt BIOS
         JMP     putloop
 
 msg:
         DB      0x0a, 0x0a
-        DB      "load error"    ; Error message
+        DB      "load error"     ; Error message
         DB      0x0a
-        DB      0               ; end msg
+        DB      0                ; end msg
 
         TIMES   0x7dfe-0x7c00-($-$$)  DB 0
 
 ; END BS_BootCode
-        DB      0x55, 0xaa      ; BS_BootSign, boot signature
+        DB      0x55, 0xaa       ; BS_BootSign, boot signature

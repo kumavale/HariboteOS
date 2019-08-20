@@ -1,4 +1,5 @@
 qemu-system-i386="/mnt/c/Program Files/qemu/qemu-system-i386.exe"
+VBoxManage=VBoxManage.exe
 args=-drive format=raw,if=floppy,file=
 
 default:
@@ -41,4 +42,8 @@ img:
 
 run:
 	make img
-	$(qemu-system-i386) $(args)haribote.img
+	#$(qemu-system-i386) $(args)haribote.img
+	$(VBoxManage) storagectl hariboteos --name Floppy --remove
+	$(VBoxManage) storagectl hariboteos --name Floppy --add floppy
+	$(VBoxManage) storageattach hariboteos --storagectl Floppy --device 0 --port 0 --type fdd --medium ./haribote.img
+	$(VBoxManage) startvm hariboteos

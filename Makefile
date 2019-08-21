@@ -1,6 +1,7 @@
 qemu-system-i386="/mnt/c/Program Files/qemu/qemu-system-i386.exe"
 VBoxManage=VBoxManage.exe
 args=-drive format=raw,if=floppy,file=
+CFLAGS=-fno-pie -march=i486 -m32 -nostdlib
 
 default:
 	make img
@@ -27,8 +28,11 @@ hankaku.o : bin2ary hankaku.bin Makefile
 	./bin2ary hankaku.bin hankaku.c hankaku
 	gcc -c -m32 -o hankaku.o hankaku.c
 
-bootpack.hrb : bootpack.c har.ld nasmfunc.o hankaku.o Makefile
-	gcc -fno-pie -march=i486 -m32 -nostdlib -T har.ld -g bootpack.c nasmfunc.o hankaku.o -o bootpack.hrb
+mysprintf.o : mysprintf.c Makefile
+	gcc $(CFLAGS) -fno-stack-protector -c -o mysprintf.o mysprintf.c
+
+bootpack.hrb : bootpack.c har.ld nasmfunc.o hankaku.o mysprintf.o Makefile
+	gcc $(CFLAGS) -T har.ld -g bootpack.c nasmfunc.o hankaku.o mysprintf.o -o bootpack.hrb
 
 haribote.sys : nasmhead.bin bootpack.hrb Makefile
 	cat nasmhead.bin bootpack.hrb > haribote.sys

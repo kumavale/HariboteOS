@@ -14,8 +14,21 @@ nasmhead.bin : nasmhead.asm Makefile
 nasmfunc.o : nasmfunc.asm Makefile
 	nasm -g -f elf nasmfunc.asm -o nasmfunc.o
 
-bootpack.hrb : bootpack.c har.ld nasmfunc.o Makefile
-	gcc -fno-pie -march=i486 -m32 -nostdlib -T har.ld -g bootpack.c nasmfunc.o -o bootpack.hrb
+makefont : makefont.c Makefile
+	gcc makefont.c -o makefont
+
+bin2ary : bin2ary.c Makefile
+	gcc bin2ary.c -o bin2ary
+
+hankaku.bin : makefont hankaku.txt Makefile
+	./makefont hankaku.txt hankaku.bin
+
+hankaku.o : bin2ary hankaku.bin Makefile
+	./bin2ary hankaku.bin hankaku.c hankaku
+	gcc -c -m32 -o hankaku.o hankaku.c
+
+bootpack.hrb : bootpack.c har.ld nasmfunc.o hankaku.o Makefile
+	gcc -fno-pie -march=i486 -m32 -nostdlib -T har.ld -g bootpack.c nasmfunc.o hankaku.o -o bootpack.hrb
 
 haribote.sys : nasmhead.bin bootpack.hrb Makefile
 	cat nasmhead.bin bootpack.hrb > haribote.sys

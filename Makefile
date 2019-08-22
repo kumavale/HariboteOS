@@ -1,8 +1,8 @@
 qemu-system-i386="/mnt/c/Program Files/qemu/qemu-system-i386.exe"
 VBoxManage=VBoxManage.exe
 args=-drive format=raw,if=floppy,file=
-CFLAGS=-fno-pie -march=i486 -m32 -nostdlib
-OBJS=nasmfunc.o hankaku.o mysprintf.o graphic.o dsctbl.o int.o
+CFLAGS=-fno-pie -march=i486 -m32 -nostdlib -fno-stack-protector
+OBJS=nasmfunc.o hankaku.o mysprintf.o graphic.o dsctbl.o int.o fifo.o
 
 default:
 	make img

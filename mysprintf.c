@@ -20,7 +20,7 @@ int dec2asc(char *str, int dec)
     return len_buf;
 }
 
-int hex2asc(char *str, int dec)
+int hex2asc(char *str, int dec, int is_large)
 {
     int len = 0, len_buf;
     int buf[10];
@@ -32,7 +32,7 @@ int hex2asc(char *str, int dec)
     len_buf = len;
     while(len) {
         --len;
-        *(str++) = (buf[len]<10) ? (buf[len] + 0x30) : (buf[len] - 9 + 0x60);
+        *(str++) = (buf[len]<10) ? (buf[len] + 0x30) : is_large ? (buf[len] - 9 + 0x40) : (buf[len] - 9 + 0x60);
     }
 
     return len_buf;
@@ -52,7 +52,10 @@ int sprintf_(char *str, const char *fmt, ...)
                     len = dec2asc(str, va_arg(list, int));
                     break;
                 case 'x':
-                    len = hex2asc(str, va_arg(list, int));
+                    len = hex2asc(str, va_arg(list, int), 0);
+                    break;
+                case 'X':
+                    len = hex2asc(str, va_arg(list, int), 1);
                     break;
             }
             str += len;

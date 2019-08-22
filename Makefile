@@ -36,6 +36,7 @@ mysprintf.o : mysprintf.c Makefile
 	gcc $(CFLAGS) -c -o $*.o $*.c
 
 bootpack.hrb : bootpack.c har.ld $(OBJS)  Makefile
+	@echo -e "\033[35mIf an error occurs in the next gcc, check if you specified an object file.\033[m"
 	gcc $(CFLAGS) $(OBJS) -T har.ld -g bootpack.c -o bootpack.hrb
 
 haribote.sys : nasmhead.bin bootpack.hrb Makefile
@@ -44,6 +45,7 @@ haribote.sys : nasmhead.bin bootpack.hrb Makefile
 haribote.img : ipl10.bin haribote.sys Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
 	mcopy haribote.sys -i haribote.img ::
+	@echo -e "\033[36mCompiled complete!\033[m"
 
 
 asm:
@@ -54,8 +56,8 @@ img:
 
 run:
 	make img
-	#$(qemu-system-i386) $(args)haribote.img
-	$(VBoxManage) storagectl hariboteos --name Floppy --remove
-	$(VBoxManage) storagectl hariboteos --name Floppy --add floppy
+	@#$(qemu-system-i386) $(args)haribote.img
+	@#$(VBoxManage) storagectl hariboteos --name Floppy --remove
+	@#$(VBoxManage) storagectl hariboteos --name Floppy --add floppy
 	$(VBoxManage) storageattach hariboteos --storagectl Floppy --device 0 --port 0 --type fdd --medium ./haribote.img
 	$(VBoxManage) startvm hariboteos

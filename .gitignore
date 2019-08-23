@@ -1,5 +1,8 @@
 *.hrb
 *.o
+*.img
 *.sys
 
-haribote.img
+bin2ary
+makefont
+

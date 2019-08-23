@@ -2,7 +2,8 @@ qemu-system-i386="/mnt/c/Program Files/qemu/qemu-system-i386.exe"
 VBoxManage=VBoxManage.exe
 args=-drive format=raw,if=floppy,file=
 CFLAGS=-fno-pie -march=i486 -m32 -nostdlib -fno-stack-protector
-OBJS=nasmfunc.o hankaku.o mysprintf.o graphic.o dsctbl.o int.o fifo.o
+OBJS_BOOTPACK=nasmfunc.o hankaku.o mysprintf.o graphic.o dsctbl.o int.o fifo.o \
+			  keyboard.o mouse.o
 
 default:
 	make img
@@ -35,9 +36,9 @@ mysprintf.o : mysprintf.c Makefile
 %.o : %.c Makefile
 	gcc $(CFLAGS) -c -o $*.o $*.c
 
-bootpack.hrb : bootpack.c har.ld $(OBJS)  Makefile
+bootpack.hrb : bootpack.c har.ld $(OBJS_BOOTPACK)  Makefile
 	@echo -e "\033[35mIf an error occurs in the next gcc, check if you specified an object file.\033[m"
-	gcc $(CFLAGS) $(OBJS) -T har.ld -g bootpack.c -o bootpack.hrb
+	gcc $(CFLAGS) $(OBJS_BOOTPACK) -T har.ld -g bootpack.c -o bootpack.hrb
 
 haribote.sys : nasmhead.bin bootpack.hrb Makefile
 	cat nasmhead.bin bootpack.hrb > haribote.sys
@@ -59,5 +60,10 @@ run:
 	@#$(qemu-system-i386) $(args)haribote.img
 	@#$(VBoxManage) storagectl hariboteos --name Floppy --remove
 	@#$(VBoxManage) storagectl hariboteos --name Floppy --add floppy
-	$(VBoxManage) storageattach hariboteos --storagectl Floppy --device 0 --port 0 --type fdd --medium ./haribote.img
+	$(VBoxManage) storageattach hariboteos \
+		--storagectl Floppy \
+		--device 0 \
+		--port 0 \
+		--type fdd \
+		--medium ./haribote.img
 	$(VBoxManage) startvm hariboteos

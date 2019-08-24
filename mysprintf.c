@@ -3,6 +3,46 @@
  */
 #include <stdarg.h>
 
+int sprintf_(char *str, const char *fmt, ...);
+
+static int dec2asc(char *str, int dec, int padding);
+static int hex2asc(char *str, int dec, int padding, int is_large);
+
+
+int sprintf_(char *str, const char *fmt, ...)
+{
+    va_list list;
+    int len, count = 0;
+    va_start(list, fmt);
+
+    while (*fmt) {
+        if(*fmt=='%') {
+            ++fmt;
+            switch(*fmt){
+                case 'd':
+                    len = dec2asc(str, va_arg(list, int), 3);
+                    break;
+                case 'x':
+                    len = hex2asc(str, va_arg(list, int), 2, 0);
+                    break;
+                case 'X':
+                    len = hex2asc(str, va_arg(list, int), 2, 1);
+                    break;
+            }
+            str += len;
+            count += len;
+            ++fmt;
+        } else {
+            ++count;
+            *(str++) = *(fmt++);
+        }
+    }
+    *str = 0x00;
+    va_end(list);
+
+    return count;
+}
+
 int dec2asc(char *str, int dec, int padding)
 {
     int len = 0, len_buf = 0;
@@ -45,39 +85,5 @@ int hex2asc(char *str, int dec, int padding, int is_large)
     }
 
     return len_buf;
-}
-
-int sprintf_(char *str, const char *fmt, ...)
-{
-    va_list list;
-    int len, count = 0;
-    va_start(list, fmt);
-
-    while (*fmt) {
-        if(*fmt=='%') {
-            ++fmt;
-            switch(*fmt){
-                case 'd':
-                    len = dec2asc(str, va_arg(list, int), 3);
-                    break;
-                case 'x':
-                    len = hex2asc(str, va_arg(list, int), 2, 0);
-                    break;
-                case 'X':
-                    len = hex2asc(str, va_arg(list, int), 2, 1);
-                    break;
-            }
-            str += len;
-            count += len;
-            ++fmt;
-        } else {
-            ++count;
-            *(str++) = *(fmt++);
-        }
-    }
-    *str = 0x00;
-    va_end(list);
-
-    return count;
 }
 

@@ -7,7 +7,7 @@ int sprintf_(char *str, const char *fmt, ...);
 
 static int dec2asc(char *str, int dec, int padding, int is_zero);
 static int hex2asc(char *str, int dec, int padding, int is_zero,  int is_large);
-static int stoi(const char *decimal);
+static int str2asc(char *str, char *buf);
 
 
 int sprintf_(char *str, const char *fmt, ...)
@@ -27,7 +27,7 @@ int sprintf_(char *str, const char *fmt, ...)
                 is_zero = 1;
             }
             if(('0' <= *fmt) && (*fmt <= '9')) {
-                padding = stoi(fmt);
+                padding = *fmt - '0';
                 ++fmt;
             }
             switch(*fmt){
@@ -39,6 +39,17 @@ int sprintf_(char *str, const char *fmt, ...)
                     break;
                 case 'X':
                     len = hex2asc(str, va_arg(list, int), padding, is_zero, 1);
+                    break;
+                case 'c':
+                    *str = (char)va_arg(list, int);
+                    len = 1;
+                    break;
+                case 's':
+                    len = str2asc(str, va_arg(list, char*));
+                    break;
+                default:
+                    *str = *fmt;
+                    len = 1;
                     break;
             }
             str += len;
@@ -119,7 +130,14 @@ int hex2asc(char *str, int dec, int padding, int is_zero, int is_large)
     return len_buf;
 }
 
-int stoi(const char *decimal) {
-    return *decimal - '0';
+int str2asc(char *str, char *buf)
+{
+    int len = 0;
+    while(*buf) {
+        *(str++) = *(buf++);
+        ++len;
+    }
+
+    return len;
 }
 

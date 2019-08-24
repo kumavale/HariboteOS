@@ -3,14 +3,14 @@
  */
 #include <stdarg.h>
 
-int sprintf_(char *str, const char *fmt, ...);
+int sprintf_(unsigned char *str, const char *fmt, ...);
 
-static int dec2asc(char *str, int dec, int padding, int is_zero);
-static int hex2asc(char *str, int dec, int padding, int is_zero,  int is_large);
-static int str2asc(char *str, char *buf);
+static int dec2asc(unsigned char *str, int dec, int padding, int is_zero);
+static int hex2asc(unsigned char *str, int dec, int padding, int is_zero,  int is_large);
+static int str2asc(unsigned char *str, char *buf);
 
 
-int sprintf_(char *str, const char *fmt, ...)
+int sprintf_(unsigned char *str, const char *fmt, ...)
 {
     va_list list;
     int is_zero = 0;
@@ -66,7 +66,7 @@ int sprintf_(char *str, const char *fmt, ...)
     return count;
 }
 
-int dec2asc(char *str, int dec, int padding, int is_zero)
+int dec2asc(unsigned char *str, int dec, int padding, int is_zero)
 {
     int len = 0, len_buf = 0;
     int isnot_zero_minus = 0;
@@ -102,7 +102,7 @@ int dec2asc(char *str, int dec, int padding, int is_zero)
     return len_buf;
 }
 
-int hex2asc(char *str, int dec, int padding, int is_zero, int is_large)
+int hex2asc(unsigned char *str, int dec, int padding, int is_zero, int is_large)
 {
     int len = 0, len_buf;
     int buf[10];
@@ -130,7 +130,7 @@ int hex2asc(char *str, int dec, int padding, int is_zero, int is_large)
     return len_buf;
 }
 
-int str2asc(char *str, char *buf)
+int str2asc(unsigned char *str, char *buf)
 {
     int len = 0;
     while(*buf) {

@@ -45,7 +45,7 @@ void set_palette(int start, int end, unsigned char *rgb)
     return;
 }
 
-void boxfill8(unsigned char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1)
+void boxfill8(char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1)
 {
     int x, y;
 
@@ -115,6 +115,24 @@ void putfonts8_asc(char *vram, int xsize, int x, int y, char c, unsigned char *s
 void init_mouse_cursor8(char *mouse, char bc)
 {
     static char cursor[16][16] = {
+        "*...............",
+        "**..............",
+        "*O*.............",
+        "*OO*............",
+        "*OOO*...........",
+        "*OOOO*..........",
+        "*OOOOO*.........",
+        "*OOOOOO*........",
+        "*OOOOOOO*.......",
+        "*OOOOO**........",
+        "*OO*OO*.........",
+        "*O*.*OO*........",
+        "**..*OO*........",
+        ".....*OO*.......",
+        ".....*OO*.......",
+        "......**........"
+
+        /* --- original ---
         "**************..",
         "*OOOOOOOOOOO*...",
         "*OOOOOOOOOO*....",
@@ -131,6 +149,7 @@ void init_mouse_cursor8(char *mouse, char bc)
         "*..........*OOO*",
         "............*OO*",
         ".............***"
+        ---------------- */
     };
     int x, y;
 

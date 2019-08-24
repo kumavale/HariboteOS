@@ -1,6 +1,6 @@
 #include "bootpack.h"
 
-int sprintf_(char *str, char *fmt, ...);
+int sprintf_(unsigned char *str, char *fmt, ...);
 
 
 void HariMain(void)
@@ -8,8 +8,13 @@ void HariMain(void)
     struct BOOTINFO *binfo = (struct BOOTINFO *) ADR_BOOTINFO;
     struct MOUSE_DEC mdec;
     struct MEMMAN *memman = (struct MEMMAN *) MEMMAN_ADDR;
-    char s[64], mcursor[256], keybuf[32], mousebuf[128];
-    int mx, my, i;
+    char mcursor[256];
+    unsigned char s[64],
+                  keybuf[32],
+                  mousebuf[128];
+    int mx,
+        my,
+        i;
     unsigned int memtotal;
 
     init_gdtidt();

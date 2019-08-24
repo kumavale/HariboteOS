@@ -1,7 +1,7 @@
 qemu-system-i386="/mnt/c/Program Files/qemu/qemu-system-i386.exe"
 VBoxManage=VBoxManage.exe
 args=-drive format=raw,if=floppy,file=
-CFLAGS=-fno-pie -march=i486 -m32 -nostdlib -fno-stack-protector
+CFLAGS=-fno-pie -march=i486 -m32 -nostdlib -fno-stack-protector -Wall
 OBJS_BOOTPACK=nasmfunc.o hankaku.o mysprintf.o graphic.o dsctbl.o int.o fifo.o \
 			  keyboard.o mouse.o memory.o
 
@@ -37,7 +37,7 @@ mysprintf.o : mysprintf.c Makefile
 	gcc $(CFLAGS) -c -o $*.o $*.c
 
 bootpack.hrb : bootpack.c har.ld $(OBJS_BOOTPACK)  Makefile
-	@echo -e "\033[35mIf an error occurs in the next gcc, check if you specified an object file.\033[m"
+	@echo -e "[\033[35mIf an error occurs in the next gcc, check if you specified an object file.\033[m]"
 	gcc $(CFLAGS) $(OBJS_BOOTPACK) -T har.ld -g bootpack.c -o bootpack.hrb
 
 haribote.sys : nasmhead.bin bootpack.hrb Makefile
@@ -47,6 +47,7 @@ haribote.img : ipl10.bin haribote.sys Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
 	mcopy haribote.sys -i haribote.img ::
 	@echo -e "\033[36mCompiled complete!\033[m"
+	@echo
 
 
 asm:

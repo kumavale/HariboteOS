@@ -35,7 +35,7 @@ void HariMain(void)
     my = (binfo->scrny - 28 - 16) / 2;
     init_mouse_cursor8(mcursor, COL8_008484);
 
-    sprintf_(s, "(%d, %d)", mx, my);
+    sprintf_(s, "(%3d, %3d)", mx, my);
     putfonts8_asc(binfo->vram, binfo->scrnx, 0, 0, COL8_FFFFFF, s);
     putblock8(binfo->vram, binfo->scrnx, 16, 16, mx, my, mcursor, 16);
 
@@ -51,14 +51,14 @@ void HariMain(void)
             if(fifo8_status(&keyfifo) != 0) {
                 i = fifo8_get(&keyfifo);
                 io_sti();
-                sprintf_(s, "%X", i);
+                sprintf_(s, "%02X", i);
                 boxfill8(binfo->vram, binfo->scrnx, COL8_008484,  0, 16, 15, 31);
                 putfonts8_asc(binfo->vram, binfo->scrnx,  0, 16, COL8_FFFFFF, s);
             } else if(fifo8_status(&mousefifo) != 0) {
                 i = fifo8_get(&mousefifo);
                 io_sti();
                 if(mouse_decode(&mdec, i) != 0) {
-                    sprintf_(s, "[lcr %d %d]", mdec.x, mdec.y);
+                    sprintf_(s, "[lcr %3d %3d]", mdec.x, mdec.y);
                     if((mdec.btn & 0x01) != 0) {
                         s[1] = 'L';
                     }
@@ -87,7 +87,7 @@ void HariMain(void)
                     if(my > binfo->scrny - 16) {
                         my = binfo->scrny - 16;
                     }
-                    sprintf_(s, "(%d, %d)", mx, my);
+                    sprintf_(s, "(%3d, %3d)", mx, my);
                     boxfill8(binfo->vram, binfo->scrnx, COL8_008484, 0, 0, 79, 15);
                     putfonts8_asc(binfo->vram, binfo->scrnx, 0, 0, COL8_FFFFFF, s);
                     putblock8(binfo->vram, binfo->scrnx, 16, 16, mx, my, mcursor, 16);

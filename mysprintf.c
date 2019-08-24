@@ -5,28 +5,40 @@
 
 int sprintf_(char *str, const char *fmt, ...);
 
-static int dec2asc(char *str, int dec, int padding);
-static int hex2asc(char *str, int dec, int padding, int is_large);
+static int dec2asc(char *str, int dec, int padding, int is_zero);
+static int hex2asc(char *str, int dec, int padding, int is_zero,  int is_large);
+static int stoi(const char *decimal);
 
 
 int sprintf_(char *str, const char *fmt, ...)
 {
     va_list list;
+    int is_zero = 0;
+    int padding = 0;
     int len, count = 0;
     va_start(list, fmt);
 
     while (*fmt) {
-        if(*fmt=='%') {
+        if(*fmt == '%') {
+            padding = is_zero = 0;
             ++fmt;
+            if(*fmt == '0') {
+                ++fmt;
+                is_zero = 1;
+            }
+            if(('0' <= *fmt) && (*fmt <= '9')) {
+                padding = stoi(fmt);
+                ++fmt;
+            }
             switch(*fmt){
                 case 'd':
-                    len = dec2asc(str, va_arg(list, int), 3);
+                    len = dec2asc(str, va_arg(list, int), padding, is_zero);
                     break;
                 case 'x':
-                    len = hex2asc(str, va_arg(list, int), 2, 0);
+                    len = hex2asc(str, va_arg(list, int), padding, is_zero, 0);
                     break;
                 case 'X':
-                    len = hex2asc(str, va_arg(list, int), 2, 1);
+                    len = hex2asc(str, va_arg(list, int), padding, is_zero, 1);
                     break;
             }
             str += len;
@@ -43,14 +55,20 @@ int sprintf_(char *str, const char *fmt, ...)
     return count;
 }
 
-int dec2asc(char *str, int dec, int padding)
+int dec2asc(char *str, int dec, int padding, int is_zero)
 {
     int len = 0, len_buf = 0;
-    int buf[10];
+    int isnot_zero_minus = 0;
+    int buf[16];
     if(dec < 0) {
-        *(str++) = '-';
         dec *= -1;
-        ++len_buf;
+        if(!is_zero) {
+            isnot_zero_minus = 1;
+        }
+        else {
+            *(str++) = '-';
+            ++len_buf;
+        }
     }
     while(1) {
         buf[len++] = dec % 10;
@@ -58,8 +76,12 @@ int dec2asc(char *str, int dec, int padding)
         dec /= 10;
     }
     len_buf += len;
-    for(int i=len_buf; i<padding; ++i) {
-        *(str++) = '0';
+    for(int i=len_buf; i<padding - isnot_zero_minus; ++i) {
+        *(str++) = is_zero ? '0' : ' ';
+        ++len_buf;
+    }
+    if(isnot_zero_minus) {
+        *(str++) = '-';
         ++len_buf;
     }
     while(len) {
@@ -69,7 +91,7 @@ int dec2asc(char *str, int dec, int padding)
     return len_buf;
 }
 
-int hex2asc(char *str, int dec, int padding, int is_large)
+int hex2asc(char *str, int dec, int padding, int is_zero, int is_large)
 {
     int len = 0, len_buf;
     int buf[10];
@@ -79,11 +101,25 @@ int hex2asc(char *str, int dec, int padding, int is_large)
         dec /= 16;
     }
     len_buf = len;
+    for(int i=len_buf; i<padding; ++i) {
+        *(str++) = is_zero ? '0' : ' ';
+        ++len_buf;
+    }
     while(len) {
         --len;
-        *(str++) = (buf[len]<10) ? (buf[len] + 0x30) : is_large ? (buf[len] - 9 + 0x40) : (buf[len] - 9 + 0x60);
+        if (buf[len] < 10) {
+            *(str++) = (buf[len] + 0x30);
+        } else if(is_large) {
+            *(str++) = (buf[len] - 9 + 0x40);
+        } else {
+            *(str++) = (buf[len] - 9 + 0x60);
+        }
     }
 
     return len_buf;
+}
+
+int stoi(const char *decimal) {
+    return *decimal - '0';
 }
 

@@ -1,7 +1,10 @@
+*.bin
 *.hrb
 *.o
 *.img
 *.sys
+
+tmp*
 
 bin2ary
 makefont

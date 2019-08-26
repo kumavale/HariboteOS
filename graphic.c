@@ -45,7 +45,7 @@ void set_palette(int start, int end, unsigned char *rgb)
     return;
 }
 
-void boxfill8(char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1)
+void boxfill8(unsigned char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1)
 {
     int x, y;
 
@@ -58,7 +58,7 @@ void boxfill8(char *vram, int xsize, unsigned char c, int x0, int y0, int x1, in
     return;
 }
 
-void init_screen(char *vram, short xsize, short ysize)
+void init_screen(unsigned char *vram, short xsize, short ysize)
 {
     boxfill8(vram, xsize, COL8_008484,          0,          0, xsize -  1, ysize - 29);
     boxfill8(vram, xsize, COL8_C6C6C6,          0, ysize - 28, xsize -  1, ysize - 28);
@@ -80,10 +80,11 @@ void init_screen(char *vram, short xsize, short ysize)
     return;
 }
 
-void putfont8(char *vram, int xsize, int x, int y, char c, char *font)
+void putfont8(unsigned char *vram, int xsize, int x, int y, char c, char *font)
 {
     int i;
-    char *p, d /* data */;
+    char d /* data */;
+    unsigned char *p;
 
     for(i=0; i<16; ++i) {
         p = vram + (y + i) * xsize + x;
@@ -101,7 +102,7 @@ void putfont8(char *vram, int xsize, int x, int y, char c, char *font)
     return;
 }
 
-void putfonts8_asc(char *vram, int xsize, int x, int y, char c, unsigned char *s)
+void putfonts8_asc(unsigned char *vram, int xsize, int x, int y, char c, unsigned char *s)
 {
     extern char hankaku[4096];
     for(; *s != 0x00; ++s) {
@@ -112,7 +113,7 @@ void putfonts8_asc(char *vram, int xsize, int x, int y, char c, unsigned char *s
     return;
 }
 
-void init_mouse_cursor8(char *mouse, char bc)
+void init_mouse_cursor8(unsigned char *mouse, char bc)
 {
     static char cursor[16][16] = {
         "*...............",
@@ -170,7 +171,7 @@ void init_mouse_cursor8(char *mouse, char bc)
     return;
 }
 
-void putblock8(char *vram, int vxsize, int pxsize, int pysize, int px0, int py0, char *buf, int bxsize)
+void putblock8(unsigned char *vram, int vxsize, int pxsize, int pysize, int px0, int py0, char *buf, int bxsize)
 {
     int x, y;
 

@@ -26,8 +26,8 @@ int sprintf_(unsigned char *str, const char *fmt, ...)
                 ++fmt;
                 is_zero = 1;
             }
-            if(('0' <= *fmt) && (*fmt <= '9')) {
-                padding = *fmt - '0';
+            while(('0' <= *fmt) && (*fmt <= '9')) {
+                padding = (padding * 10) + *fmt - '0';
                 ++fmt;
             }
             switch(*fmt){

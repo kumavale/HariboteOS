@@ -54,8 +54,6 @@ void HariMain(void)
     init_mouse_cursor8(buf_mouse, 99);
 
     make_window8(buf_win, 160, 52, "counter");
-    //putfonts8_asc(buf_win, 160, 24, 28, COL8_000000, "Welcome");
-    //putfonts8_asc(buf_win, 160, 24, 44, COL8_000000, "  Haribote-OS!");
 
     sheet_slide(sht_back, 0, 0);
     mx = (binfo->scrnx - 16) / 2;
@@ -77,7 +75,7 @@ void HariMain(void)
 
     for(;;) {
         ++count;
-        sprintf_(s, "%09d", count);
+        sprintf_(s, "%010d", count);
         boxfill8(buf_win, 160, COL8_C6C6C6, 40, 28, 119, 43);
         putfonts8_asc(buf_win, 160, 40, 28, COL8_000000, s);
         sheet_refresh(sht_win, 40, 28, 120, 44);

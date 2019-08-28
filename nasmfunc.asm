@@ -7,10 +7,10 @@ global io_out8, io_out16, io_out32
 global io_load_eflags, io_store_eflags
 global load_gdtr, load_idtr
 global load_cr0, store_cr0
-global asm_inthandler21, asm_inthandler27, asm_inthandler2c
+global asm_inthandler20, asm_inthandler21, asm_inthandler27, asm_inthandler2c
 global memtest_sub
 
-extern inthandler21, inthandler27, inthandler2c
+extern inthandler20, inthandler21, inthandler27, inthandler2c
 
 section .text
 
@@ -88,6 +88,22 @@ load_idtr: ; void load_idtr(int limit, int addr);
     MOV     [ESP+6], AX
     LIDT    [ESP+6]
     RET
+
+asm_inthandler20:
+    PUSH    ES
+    PUSH    DS
+    PUSHAD
+    MOV     EAX, ESP
+    PUSH    EAX
+    MOV     AX, SS
+    MOV     DS, AX
+    MOV     ES, AX
+    CALL    inthandler20
+    POP     EAX
+    POPAD
+    POP     DS
+    POP     ES
+    IRETD
 
 asm_inthandler21:
     PUSH    ES

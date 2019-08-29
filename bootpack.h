@@ -48,7 +48,7 @@ void set_palette(int start, int end, unsigned char *rgb);
 void boxfill8(unsigned char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1);
 void init_screen(unsigned char *vram, short scrnx, short scrny);
 void putfont8(unsigned char *vram, int xsize, int x, int y, char c, char *font);
-void putfonts8_asc(unsigned char *vram, int xsize, int x, int y, char c, unsigned char *s);
+void putfonts8_asc(unsigned char *vram, int xsize, int x, int y, char c, char *s);
 void init_mouse_cursor8(unsigned char *mouse, char bc);
 void putblock8(unsigned char *vram, int vxsize, int pxsize, int pysize, int px0, int py0, char *buf, int bxsize);
 
@@ -175,6 +175,14 @@ void sheet_slide(struct SHEET *sht, int vx0, int vy0);
 void sheet_free(struct SHEET *sht);
 
 /* timer.c */
+struct TIMERCTL {
+    unsigned int count;
+    unsigned int timeout;
+    struct FIFO8 *fifo;
+    unsigned char data;
+};
+extern struct TIMERCTL timerctl;
 void init_pit(void);
 void inthanler20(int *esp);
+void settimer(unsigned int timeout, struct FIFO8 *fifo, unsigned char data);
 

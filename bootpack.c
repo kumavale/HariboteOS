@@ -1,6 +1,6 @@
 #include "bootpack.h"
 
-int sprintf_(unsigned char *str, char *fmt, ...);
+int sprintf_(char *str, char *fmt, ...);
 void make_window8(unsigned char *buf, int xsize, int ysize, char *title);
 
 
@@ -11,26 +11,31 @@ void HariMain(void)
     struct MEMMAN *memman = (struct MEMMAN *) MEMMAN_ADDR;
     struct SHTCTL *shtctl;
     struct SHEET *sht_back, *sht_mouse, *sht_win;
-    unsigned char s[64],
-                  keybuf[32],
+    struct FIFO8 timerfifo;
+    char s[64];
+    unsigned char keybuf[32],
                   mousebuf[128],
+                  timerbuf[8],
                   *buf_back,
                   buf_mouse[256],
                   *buf_win;
     int mx,
         my,
         i;
-    unsigned int memtotal, count = 0;
+    unsigned int memtotal;
 
     init_gdtidt();
     init_pic();
     io_sti();
 
-    fifo8_init(&keyfifo, 32, keybuf);
+    fifo8_init(&keyfifo,    32, keybuf);
     fifo8_init(&mousefifo, 128, mousebuf);
     init_pit();
     io_out8(PIC0_IMR, 0xf8);  /* Arrow PIC1 and Keyboard (11111001) */
     io_out8(PIC1_IMR, 0xef);  /* Arrow Mouse */
+
+    fifo8_init(&timerfifo,   8, timerbuf);
+    settimer(1000, &timerfifo, 1);
 
     init_keyboard();
     enable_mouse(&mdec);
@@ -75,14 +80,13 @@ void HariMain(void)
     sheet_refresh(sht_back, 0, 0, binfo->scrnx, 48);
 
     for(;;) {
-        ++count;
-        sprintf_(s, "%010d", count);
+        sprintf_(s, "%010d", timerctl.count);
         boxfill8(buf_win, 160, COL8_C6C6C6, 40, 28, 119, 43);
         putfonts8_asc(buf_win, 160, 40, 28, COL8_000000, s);
         sheet_refresh(sht_win, 40, 28, 120, 44);
 
         io_cli();
-        if(fifo8_status(&keyfifo) + fifo8_status(&mousefifo) == 0) {
+        if(fifo8_status(&keyfifo) + fifo8_status(&mousefifo) + fifo8_status(&timerfifo) == 0) {
             //io_stihlt();
             io_sti();
         } else {
@@ -133,6 +137,11 @@ void HariMain(void)
                     sheet_refresh(sht_back, 0, 0, 80, 16);
                     sheet_slide(sht_mouse, mx, my);
                 }
+            } else if(fifo8_status(&timerfifo) != 0) {
+                i = fifo8_get(&timerfifo);
+                io_sti();
+                putfonts8_asc(buf_back, binfo->scrnx, 0, 64, COL8_FFFFFF, "10[sec]");
+                sheet_refresh(sht_back, 0, 64, 56, 80);
             }
         }
     }
@@ -169,7 +178,7 @@ void make_window8(unsigned char *buf, int xsize, int ysize, char *title)
     boxfill8(buf, xsize, COL8_000084,         3,         3, xsize - 4,        20);
     boxfill8(buf, xsize, COL8_848484,         1, ysize - 2, xsize - 2, ysize - 2);
     boxfill8(buf, xsize, COL8_000000,         0, ysize - 1, xsize - 1, ysize - 1);
-    putfonts8_asc(buf, xsize, 24, 4, COL8_FFFFFF, (unsigned char *)title);
+    putfonts8_asc(buf, xsize, 24, 4, COL8_FFFFFF, title);
 
     for (y = 0; y < 14; ++y) {
         for (x = 0; x < 16; ++x) {

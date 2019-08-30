@@ -113,7 +113,6 @@ void HariMain(void)
                     putfonts8_asc_sht(sht_back, 32, 16, COL8_FFFFFF, COL8_008484, s, 15);
 
                     /* Move mouse cursor */
-                    boxfill8(binfo->vram, binfo->scrnx, COL8_008484, mx, my, mx + 15, my + 15); /* Delete cursor */
                     mx += mdec.x;
                     my += mdec.y;
                     if(mx < 0) {

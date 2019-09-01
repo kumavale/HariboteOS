@@ -7,8 +7,10 @@ global io_out8, io_out16, io_out32
 global io_load_eflags, io_store_eflags
 global load_gdtr, load_idtr
 global load_cr0, store_cr0
+global load_tr
 global asm_inthandler20, asm_inthandler21, asm_inthandler27, asm_inthandler2c
 global memtest_sub
+global farjmp
 
 extern inthandler20, inthandler21, inthandler27, inthandler2c
 
@@ -87,6 +89,10 @@ load_idtr: ; void load_idtr(int limit, int addr);
     MOV     AX, [ESP+4]     ; limit
     MOV     [ESP+6], AX
     LIDT    [ESP+6]
+    RET
+
+load_tr:   ; void load_tr(int tr);
+    LTR     [ESP+4]         ; tr
     RET
 
 asm_inthandler20:
@@ -193,5 +199,9 @@ mts_fin:
     POP     EBX
     POP     ESI
     POP     EDI
+    RET
+
+farjmp:   ; void farjmp(int eip, int cs);
+    JMP     FAR [ESP+4]              ; eip, cs
     RET
 

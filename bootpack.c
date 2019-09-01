@@ -79,7 +79,7 @@ void HariMain(void)
     sheet_setbuf(sht_mouse, buf_mouse, 16, 16, 99);
     sheet_setbuf(sht_win, buf_win, 160, 52, -1);
 
-    init_screen(buf_back, binfo->scrnx, binfo->scrny);
+    init_screen8(buf_back, binfo->scrnx, binfo->scrny);
     init_mouse_cursor8(buf_mouse, 99);
 
     make_window8(buf_win, 160, 52, "window");

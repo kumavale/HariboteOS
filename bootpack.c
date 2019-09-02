@@ -78,51 +78,8 @@ void HariMain(void)
         task_b[i]->tss.fs  = 1 * 8;
         task_b[i]->tss.gs  = 1 * 8;
         *((int *) (task_b[i]->tss.esp + 4)) = (int) sht_win_b[i];
-        task_run(task_b[i]);
+        task_run(task_b[i], i + 1);
     }
-
-    //sht_mouse = sheet_alloc(shtctl);
-    //sht_win   = sheet_alloc(shtctl);
-    //buf_win   = (unsigned char *) memman_alloc_4k(memman, 160 * 52);
-    //sheet_setbuf(sht_mouse, buf_mouse, 16, 16, 99);
-    //sheet_setbuf(sht_win, buf_win, 160, 52, -1);
-
-    //init_mouse_cursor8(buf_mouse, 99);
-
-    //make_window8(buf_win, 160, 52, "window");
-    //make_textbox8(sht_win, 8, 28, 144, 16, COL8_FFFFFF);
-
-    //cursor_x = 8;
-    //cursor_c = COL8_FFFFFF;
-
-    //sheet_slide(sht_back, 0, 0);
-    //mx = (binfo->scrnx - 16) / 2;
-    //my = (binfo->scrny - 28 - 16) / 2;
-    //sheet_slide(sht_mouse, mx, my);
-    //sheet_slide(sht_win, 80, 72);
-    //sheet_updown(sht_back,  0);
-    //sheet_updown(sht_win,   1);
-    //sheet_updown(sht_mouse, 2);
-
-    //sprintf_(s, "(%3d, %3d)", mx, my);
-    //putfonts8_asc_sht(sht_back, 0, 0, COL8_FFFFFF, COL8_008484, s, 10);
-
-    //sprintf_(s, "memory %dMB   free : %dKB",
-    //        memtotal / (1024 * 1024), memman_total(memman) / 1024);
-    //putfonts8_asc_sht(sht_back, 0, 32, COL8_FFFFFF, COL8_008484, s, 40);
-
-    //task_b = task_alloc();
-    //task_b->tss.esp = memman_alloc_4k(memman, 64 * 1024) + 64 * 1024 - 8;
-    //task_b->tss.eip = (int) &task_b_main;
-    //task_b->tss.es = 1 * 8;
-    //task_b->tss.cs = 2 * 8;
-    //task_b->tss.ss = 1 * 8;
-    //task_b->tss.ds = 1 * 8;
-    //task_b->tss.fs = 1 * 8;
-    //task_b->tss.gs = 1 * 8;
-    //*((int *) (task_b->tss.esp + 4)) = (int) sht_back;
-    //task_run(task_b);
-
 
     /* sht_win */
     sht_win = sheet_alloc(shtctl);

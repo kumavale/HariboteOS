@@ -81,10 +81,15 @@ void HariMain(void)
 
     /* sht_cons */
     sht_cons = sheet_alloc(shtctl);
-    buf_cons = (unsigned char *) memman_alloc_4k(memman, 256 * 165);
-    sheet_setbuf(sht_cons, buf_cons, 256, 165, -1);
-    make_window8(buf_cons, 256, 165, "console", 0);
-    make_textbox8(sht_cons, 8, 28, 240, 128, COL8_000000);
+    // buf_cons = (unsigned char *) memman_alloc_4k(memman, 256 * 165);
+    // sheet_setbuf(sht_cons, buf_cons, 256, 165, -1);
+    // make_window8(buf_cons, 256, 165, "console", 0);
+    // make_textbox8(sht_cons, 8, 28, 240, 128, COL8_000000);
+    /* Size x2 */
+       buf_cons = (unsigned char *) memman_alloc_4k(memman, 512 * 330);
+       sheet_setbuf(sht_cons, buf_cons, 512, 330, -1);
+       make_window8(buf_cons, 512, 330, "console", 0);
+       make_textbox8(sht_cons, 8, 28, 496, 293, COL8_000000);
     task_cons = task_alloc();
     task_cons->tss.esp = memman_alloc_4k(memman, 64 * 1024) + 64 * 1024 - 8;
     task_cons->tss.eip = (int) &console_task;
@@ -421,7 +426,8 @@ void console_task(struct SHEET *sheet)
                         cursor_x -= 8;
                     }
                 } else {
-                    if (cursor_x < 240) {
+                    //if (cursor_x < 240) {
+                    if (cursor_x < 480) {
                         s[0] = i - 256;
                         s[1] = 0;
                         putfonts8_asc_sht(sheet, cursor_x, 28, COL8_FFFFFF, COL8_000000, s, 1);

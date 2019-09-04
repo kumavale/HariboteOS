@@ -3,7 +3,8 @@ VBoxManage=VBoxManage.exe
 args=-drive format=raw,if=floppy,file=
 CFLAGS=-fno-pie -march=i486 -m32 -nostdlib -fno-stack-protector -Wall
 OBJS_BOOTPACK=nasmfunc.o hankaku.o mystd.o graphic.o dsctbl.o int.o fifo.o \
-			  keyboard.o mouse.o memory.o sheet.o timer.o mtask.o
+			  keyboard.o mouse.o memory.o sheet.o timer.o mtask.o window.o \
+			  console.o file.o
 
 default:
 	make img

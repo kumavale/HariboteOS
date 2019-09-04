@@ -449,18 +449,18 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
                 }
                 timer_settime(timer, 50);
             }
-            if (i == 2) {
+            if (i == 2) {    /* Cursor ON */
                 cursor_c = COL8_FFFFFF;
             }
-            if (i == 3) {
-                boxfill8(sheet->buf, sheet->bxsize, COL8_000000, cursor_x, 28, cursor_x + 7, 43);
+            if (i == 3) {    /* Cursor OFF */
+                boxfill8(sheet->buf, sheet->bxsize, COL8_000000, cursor_x, cursor_y, cursor_x + 7, cursor_y + 15);
                 cursor_c = -1;
             }
             if (256 <= i && i <= 511) {
                 if (i == 8 + 256) {
                     /* Backspace */
                     if (cursor_x > 16) {
-                        putfonts8_asc_sht(sheet, cursor_x, 28, COL8_FFFFFF, COL8_000000, " ", 1);
+                        putfonts8_asc_sht(sheet, cursor_x, cursor_y, COL8_FFFFFF, COL8_000000, " ", 1);
                         cursor_x -= 8;
                     }
                 } else if (i == 10 + 256) {
@@ -468,7 +468,6 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
                     putfonts8_asc_sht(sheet, cursor_x, cursor_y, COL8_FFFFFF, COL8_000000, " ", 1);
                     cmdline[cursor_x / 8 - 2] = 0;
                     cursor_y = cons_newline(cursor_y, sheet);
-
                     if (strcmp(cmdline, "mem") == 0) {
                         /* mem command */
                         sprintf(s, "total   %dMB", memtotal / (1024 * 1024));
@@ -479,7 +478,7 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
                         cursor_y = cons_newline(cursor_y, sheet);
                         cursor_y = cons_newline(cursor_y, sheet);
                     } else if (strcmp(cmdline, "clear") == 0) {
-                        /* clear command */
+                        /* clear */
                         for (y = 28; y < 28 + 128; ++y) {
                             for (x = 8; x < 8 + 240; ++x) {
                                 sheet->buf[x + y * sheet->bxsize] = COL8_000000;
@@ -547,11 +546,30 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
                             for (x = 0; x < y; ++x) {
                                 s[0] = p[x];
                                 s[1] = 0;
-                                putfonts8_asc_sht(sheet, cursor_x, cursor_y, COL8_FFFFFF, COL8_000000, s, 1);
-                                cursor_x += 8;
-                                if (cursor_x == 8 + 240) {
+                                if (s[0] == 0x09) {    /* Tab */
+                                    for (;;) {
+                                        putfonts8_asc_sht(sheet, cursor_x, cursor_y, COL8_FFFFFF, COL8_000000, " ", 1);
+                                        cursor_x += 8;
+                                        if (cursor_x == 8 + 240) {
+                                            cursor_x = 8;
+                                            cursor_y = cons_newline(cursor_y, sheet);
+                                        }
+                                        if (((cursor_x - 8) & 0x1f) == 0) {
+                                            break;
+                                        }
+                                    }
+                                } else if (s[0] == 0x0a) {    /* Return */
                                     cursor_x = 8;
                                     cursor_y = cons_newline(cursor_y, sheet);
+                                } else if (s[0] == 0x0d) {
+                                    /* Do nothing */
+                                } else {  /* Normal character*/
+                                    putfonts8_asc_sht(sheet, cursor_x, cursor_y, COL8_FFFFFF, COL8_000000, s, 1);
+                                    cursor_x += 8;
+                                    if (cursor_x == 8 + 240) {
+                                        cursor_x = 8;
+                                        cursor_y = cons_newline(cursor_y, sheet);
+                                    }
                                 }
                             }
                         } else {
@@ -567,7 +585,6 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
                     putfonts8_asc_sht(sheet, 8, cursor_y, COL8_FFFFFF, COL8_000000, ">", 1);
                     cursor_x = 16;
                 } else {
-                    /* Normal character */
                     if (cursor_x < 240) {
                         s[0] = i - 256;
                         s[1] = 0;

@@ -7,6 +7,8 @@ void make_textbox8(struct SHEET *sht, int x0, int y0, int sx, int sy, int c);
 void make_wtitle8(unsigned char *buf, int xsize, char *title, char act);
 void console_task(struct SHEET *sheet, unsigned int memtotal);
 int cons_newline(int cursor_y, struct SHEET *sheet);
+void file_readfat(int *fat, unsigned char *img);
+void file_loadfile(int clustno, int size, char *buf, int *fat, char *img);
 
 #define KEYCMD_LED 0xed
 
@@ -419,11 +421,13 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
     int i, fifobuf[128], cursor_x = 16, cursor_y = 28, cursor_c = -1;
     char s[32], cmdline[32], *p;
     int x, y;
+    int *fat = (int *) memman_alloc_4k(memman, 4 * 2880);
 
     fifo32_init(&task->fifo, 128, fifobuf, task);
     timer = timer_alloc();
     timer_init(timer, &task->fifo, 1);
     timer_settime(timer, 50);
+    file_readfat(fat, (unsigned char *) (ADR_DISKIMG + 0x000200));
 
     putfonts8_asc_sht(sheet, 8, 28, COL8_FFFFFF, COL8_000000, ">", 1);
 
@@ -540,11 +544,11 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
                             ++x;
                         }
                         if (x < 224 && finfo[x].name[0] != 0x00) {
-                            y = finfo[x].size;
-                            p = (char *) (finfo[x].clustno * 512 + 0x003e00 + ADR_DISKIMG);
+                            p = (char *) memman_alloc_4k(memman, finfo[x].size);
+                            file_loadfile(finfo[x].clustno, finfo[x].size, p, fat, (char *) (ADR_DISKIMG + 0x003e00));
                             cursor_x = 8;
-                            for (x = 0; x < y; ++x) {
-                                s[0] = p[x];
+                            for (y = 0; y < finfo[x].size; ++y) {
+                                s[0] = p[y];
                                 s[1] = 0;
                                 if (s[0] == 0x09) {    /* Tab */
                                     for (;;) {
@@ -572,6 +576,7 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
                                     }
                                 }
                             }
+                            memman_free_4k(memman, (int) p, finfo[x].size);
                         } else {
                             putfonts8_asc_sht(sheet, 8, cursor_y, COL8_FFFFFF, COL8_000000, "File not found.", 15);
                             cursor_y = cons_newline(cursor_y, sheet);
@@ -624,5 +629,40 @@ int cons_newline(int cursor_y, struct SHEET *sheet)
     }
 
     return cursor_y;
+}
+
+void file_readfat(int *fat, unsigned char *img)
+{
+    int i, j = 0;
+
+    for (i = 0; i < 2880; i += 2) {
+        fat[i + 0] = (img[j + 0]      | img[j + 1] << 8) & 0xfff;
+        fat[i + 1] = (img[j + 1] >> 4 | img[j + 2] << 4) & 0xfff;
+        j += 3;
+    }
+
+    return;
+}
+
+void file_loadfile(int clustno, int size, char *buf, int *fat, char *img)
+{
+    int i;
+
+    for (;;) {
+        if (size <= 512) {
+            for (i = 0; i < size; ++i) {
+                buf[i] = img[clustno * 512 + i];
+            }
+            break;
+        }
+        for (i = 0; i < 512; ++i) {
+            buf[i] = img[clustno * 512 + i];
+        }
+        size -= 512;
+        buf += 512;
+        clustno = fat[clustno];
+    }
+
+    return;
 }
 

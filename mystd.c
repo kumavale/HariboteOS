@@ -1,14 +1,12 @@
-/* [References]
- * http://bttb.s1.valueserver.jp/wordpress/blog/2017/12/17/makeos-5-2/
- */
 #include <stdarg.h>
+#include "mystd.h"
 
 static int dec2asc(char *str, int dec, int padding, int is_zero);
 static int hex2asc(char *str, int dec, int padding, int is_zero,  int is_large);
 static int str2asc(char *str, char *buf);
 
 
-int sprintf_(char *str, const char *fmt, ...)
+int sprintf(char *str, const char *fmt, ...)
 {
     va_list list;
     int is_zero = 0;
@@ -137,5 +135,19 @@ int str2asc(char *str, char *buf)
     }
 
     return len;
+}
+
+int strcmp(const char *str1, const char *str2)
+{
+    for (int i = 0;; ++i) {
+        if (str1[i] == 0 && str2[i] == 0) {
+            return 0;
+        }
+        if (str1[i] != str2[i]) {
+            break;
+        }
+    }
+
+    return 1;
 }
 

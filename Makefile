@@ -44,10 +44,11 @@ bootpack.hrb : bootpack.c har.ld $(OBJS_BOOTPACK)  Makefile
 haribote.sys : nasmhead.bin bootpack.hrb Makefile
 	cat nasmhead.bin bootpack.hrb > haribote.sys
 
-haribote.img : ipl10.bin haribote.sys Makefile
+haribote.img : ipl10.bin haribote.sys hlt.hrb Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
 	mcopy -i haribote.img haribote.sys ::
 	mcopy -i haribote.img mystd.c ::
+	mcopy -i haribote.img hlt.hrb ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

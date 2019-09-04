@@ -45,7 +45,8 @@ haribote.sys : nasmhead.bin bootpack.hrb Makefile
 
 haribote.img : ipl10.bin haribote.sys Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
-	mcopy haribote.sys -i haribote.img ::
+	mcopy -i haribote.img haribote.sys ::
+	mcopy -i haribote.img mystd.c ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

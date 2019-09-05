@@ -1,4 +1,5 @@
 global api_putchar
+global api_end
 
 section .text
 
@@ -7,3 +8,7 @@ api_putchar:   ; void api_putchar(int c);
     MOV     AL, [ESP+4]   ; c
     INT     0x40
     RET
+
+api_end:   ; void api_end(void);
+    MOV     EDX, 4
+    INT     0x40

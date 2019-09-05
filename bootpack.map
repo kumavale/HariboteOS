@@ -24,9 +24,9 @@ Discarded input sections
  .eh_frame      0x0000000000000000       0xd8 timer.o
  .eh_frame      0x0000000000000000      0x16c mtask.o
  .eh_frame      0x0000000000000000       0xb0 window.o
- .eh_frame      0x0000000000000000      0x1c0 console.o
+ .eh_frame      0x0000000000000000      0x1e0 console.o
  .eh_frame      0x0000000000000000       0x78 file.o
- .eh_frame      0x0000000000000000       0x34 /tmp/ccACPHSe.o
+ .eh_frame      0x0000000000000000       0x34 /tmp/ccnfFYq6.o
 
 Memory Configuration
 
@@ -51,22 +51,22 @@ LOAD mtask.o
 LOAD window.o
 LOAD console.o
 LOAD file.o
-LOAD /tmp/ccACPHSe.o
+LOAD /tmp/ccnfFYq6.o
 
 .head           0x0000000000000000       0x24
                 0x0000000000000000        0x4 LONG 0x10000
                 0x0000000000000004        0x4 LONG 0x69726148
                 0x0000000000000008        0x4 LONG 0x0
                 0x000000000000000c        0x4 LONG 0x310000
-                0x0000000000000010        0x4 LONG 0x1433 SIZEOF (.data)
-                0x0000000000000014        0x4 LONG 0x4c1a LOADADDR (.data)
+                0x0000000000000010        0x4 LONG 0x145e SIZEOF (.data)
+                0x0000000000000014        0x4 LONG 0x4d4c LOADADDR (.data)
                 0x0000000000000018        0x4 LONG 0xe9000000
-                0x000000000000001c        0x4 LONG 0x408f (HariMain - 0x20)
+                0x000000000000001c        0x4 LONG 0x41c1 (HariMain - 0x20)
                 0x0000000000000020        0x4 LONG 0x0
 
-.text           0x0000000000000030     0x4bea
+.text           0x0000000000000030     0x4d1c
  *(.text)
- .text          0x0000000000000030      0x136 nasmfunc.o
+ .text          0x0000000000000030      0x198 nasmfunc.o
                 0x0000000000000030                io_hlt
                 0x0000000000000032                io_cli
                 0x0000000000000034                io_sti
@@ -86,109 +86,112 @@ LOAD /tmp/ccACPHSe.o
                 0x00000000000000bc                asm_inthandler21
                 0x00000000000000d3                asm_inthandler27
                 0x00000000000000ea                asm_inthandler2c
-                0x0000000000000101                load_cr0
-                0x0000000000000105                store_cr0
-                0x000000000000010d                memtest_sub
-                0x000000000000014f                farjmp
-                0x0000000000000154                farcall
-                0x0000000000000159                asm_hrb_api
- .text          0x0000000000000166        0x0 hankaku.o
- .text          0x0000000000000166      0x484 mystd.o
-                0x0000000000000166                sprintf
-                0x0000000000000532                strcmp
-                0x0000000000000587                strncmp
- .text          0x00000000000005ea      0x60c graphic.o
-                0x00000000000005ea                init_palette
-                0x0000000000000607                set_palette
-                0x00000000000006b3                boxfill8
-                0x0000000000000702                init_screen8
-                0x0000000000000976                putfont8
-                0x0000000000000a6e                putfonts8_asc
-                0x0000000000000aba                init_mouse_cursor8
-                0x0000000000000b8a                putblock8
- .text          0x0000000000000bf6      0x229 dsctbl.o
-                0x0000000000000bf6                init_gdtidt
-                0x0000000000000d69                set_segmdesc
-                0x0000000000000de0                set_gatedesc
- .text          0x0000000000000e1f       0xf3 int.o
-                0x0000000000000e1f                init_pic
-                0x0000000000000efa                inthandler27
- .text          0x0000000000000f12      0x178 fifo.o
-                0x0000000000000f12                fifo32_init
-                0x0000000000000f59                fifo32_put
-                0x0000000000001006                fifo32_get
-                0x0000000000001075                fifo32_status
- .text          0x000000000000108a       0xa6 keyboard.o
-                0x000000000000108a                inthandler21
-                0x00000000000010cf                wait_KBC_sendready
-                0x00000000000010ef                init_keyboard
- .text          0x0000000000001130      0x1e4 mouse.o
-                0x0000000000001130                inthandler2c
-                0x0000000000001187                enable_mouse
-                0x00000000000011d5                mouse_decode
- .text          0x0000000000001314      0x4ab memory.o
-                0x0000000000001314                memtest
-                0x00000000000013cb                memman_init
-                0x00000000000013f8                memman_total
-                0x0000000000001430                memman_alloc
-                0x0000000000001517                memman_free
-                0x0000000000001764                memman_alloc_4k
-                0x0000000000001790                memman_free_4k
- .text          0x00000000000017bf      0xa4c sheet.o
-                0x00000000000017bf                shtctl_init
-                0x00000000000018a1                sheet_alloc
-                0x0000000000001917                sheet_setbuf
-                0x0000000000001940                sheet_refreshmap
-                0x0000000000001b0c                sheet_refreshsub
-                0x0000000000001cf3                sheet_updown
-                0x0000000000002060                sheet_refresh
-                0x00000000000020d1                sheet_slide
-                0x00000000000021e4                sheet_free
- .text          0x000000000000220b      0x295 timer.o
-                0x000000000000220b                init_pit
-                0x00000000000022b2                timer_alloc
-                0x000000000000231b                timer_free
-                0x000000000000232b                timer_init
-                0x0000000000002343                timer_settime
-                0x00000000000023f2                inthandler20
- .text          0x00000000000024a0      0x70f mtask.o
-                0x00000000000024a0                task_now
-                0x00000000000024e6                task_add
-                0x000000000000255a                task_remove
-                0x000000000000262b                task_switchsub
-                0x000000000000268c                task_idle
-                0x0000000000002699                task_init
-                0x00000000000028dd                task_alloc
-                0x00000000000029fe                task_run
-                0x0000000000002a6b                task_switch
-                0x0000000000002b5f                task_sleep
- .text          0x0000000000002baf      0x4fb window.o
-                0x0000000000002baf                make_window8
-                0x0000000000002d19                make_wtitle8
-                0x0000000000002e0a                putfonts8_asc_sht
-                0x0000000000002eaa                make_textbox8
- .text          0x00000000000030aa      0xd4e console.o
-                0x00000000000030aa                console_task
-                0x0000000000003451                cons_putchar
-                0x0000000000003556                cons_newline
-                0x0000000000003659                cons_putstr0
-                0x0000000000003689                cons_putstr1
-                0x00000000000036c4                cons_runcmd
-                0x00000000000037af                cmd_mem
-                0x00000000000037fd                cmd_clear
-                0x0000000000003879                cmd_ls
-                0x00000000000039a6                cmd_cat
-                0x0000000000003a73                cmd_hlt
-                0x0000000000003b88                cmd_app
-                0x0000000000003d7a                hrb_api
- .text          0x0000000000003df8      0x2b7 file.o
-                0x0000000000003df8                file_readfat
-                0x0000000000003ea8                file_loadfile
-                0x0000000000003f4c                file_search
- .text          0x00000000000040af      0xb6b /tmp/ccACPHSe.o
-                0x00000000000040af                HariMain
+                0x0000000000000101                asm_inthandler0d
+                0x0000000000000121                load_cr0
+                0x0000000000000125                store_cr0
+                0x000000000000012d                memtest_sub
+                0x000000000000016f                farjmp
+                0x0000000000000174                farcall
+                0x0000000000000179                asm_hrb_api
+                0x000000000000019a                start_app
+ .text          0x00000000000001c8        0x0 hankaku.o
+ .text          0x00000000000001c8      0x484 mystd.o
+                0x00000000000001c8                sprintf
+                0x0000000000000594                strcmp
+                0x00000000000005e9                strncmp
+ .text          0x000000000000064c      0x60c graphic.o
+                0x000000000000064c                init_palette
+                0x0000000000000669                set_palette
+                0x0000000000000715                boxfill8
+                0x0000000000000764                init_screen8
+                0x00000000000009d8                putfont8
+                0x0000000000000ad0                putfonts8_asc
+                0x0000000000000b1c                init_mouse_cursor8
+                0x0000000000000bec                putblock8
+ .text          0x0000000000000c58      0x245 dsctbl.o
+                0x0000000000000c58                init_gdtidt
+                0x0000000000000de7                set_segmdesc
+                0x0000000000000e5e                set_gatedesc
+ .text          0x0000000000000e9d       0xf3 int.o
+                0x0000000000000e9d                init_pic
+                0x0000000000000f78                inthandler27
+ .text          0x0000000000000f90      0x178 fifo.o
+                0x0000000000000f90                fifo32_init
+                0x0000000000000fd7                fifo32_put
+                0x0000000000001084                fifo32_get
+                0x00000000000010f3                fifo32_status
+ .text          0x0000000000001108       0xa6 keyboard.o
+                0x0000000000001108                inthandler21
+                0x000000000000114d                wait_KBC_sendready
+                0x000000000000116d                init_keyboard
+ .text          0x00000000000011ae      0x1e4 mouse.o
+                0x00000000000011ae                inthandler2c
+                0x0000000000001205                enable_mouse
+                0x0000000000001253                mouse_decode
+ .text          0x0000000000001392      0x4ab memory.o
+                0x0000000000001392                memtest
+                0x0000000000001449                memman_init
+                0x0000000000001476                memman_total
+                0x00000000000014ae                memman_alloc
+                0x0000000000001595                memman_free
+                0x00000000000017e2                memman_alloc_4k
+                0x000000000000180e                memman_free_4k
+ .text          0x000000000000183d      0xa4c sheet.o
+                0x000000000000183d                shtctl_init
+                0x000000000000191f                sheet_alloc
+                0x0000000000001995                sheet_setbuf
+                0x00000000000019be                sheet_refreshmap
+                0x0000000000001b8a                sheet_refreshsub
+                0x0000000000001d71                sheet_updown
+                0x00000000000020de                sheet_refresh
+                0x000000000000214f                sheet_slide
+                0x0000000000002262                sheet_free
+ .text          0x0000000000002289      0x295 timer.o
+                0x0000000000002289                init_pit
+                0x0000000000002330                timer_alloc
+                0x0000000000002399                timer_free
+                0x00000000000023a9                timer_init
+                0x00000000000023c1                timer_settime
+                0x0000000000002470                inthandler20
+ .text          0x000000000000251e      0x70f mtask.o
+                0x000000000000251e                task_now
+                0x0000000000002564                task_add
+                0x00000000000025d8                task_remove
+                0x00000000000026a9                task_switchsub
+                0x000000000000270a                task_idle
+                0x0000000000002717                task_init
+                0x000000000000295b                task_alloc
+                0x0000000000002a7c                task_run
+                0x0000000000002ae9                task_switch
+                0x0000000000002bdd                task_sleep
+ .text          0x0000000000002c2d      0x4fb window.o
+                0x0000000000002c2d                make_window8
+                0x0000000000002d97                make_wtitle8
+                0x0000000000002e88                putfonts8_asc_sht
+                0x0000000000002f28                make_textbox8
+ .text          0x0000000000003128      0xe02 console.o
+                0x0000000000003128                console_task
+                0x00000000000034cf                cons_putchar
+                0x00000000000035d4                cons_newline
+                0x00000000000036d7                cons_putstr0
+                0x0000000000003707                cons_putstr1
+                0x0000000000003742                cons_runcmd
+                0x000000000000382d                cmd_mem
+                0x000000000000387b                cmd_clear
+                0x00000000000038f7                cmd_ls
+                0x0000000000003a24                cmd_cat
+                0x0000000000003af1                cmd_hlt
+                0x0000000000003c06                cmd_app
+                0x0000000000003e5e                hrb_api
+                0x0000000000003ef7                inthandler0d
+ .text          0x0000000000003f2a      0x2b7 file.o
+                0x0000000000003f2a                file_readfat
+                0x0000000000003fda                file_loadfile
+                0x000000000000407e                file_search
+ .text          0x00000000000041e1      0xb6b /tmp/ccnfFYq6.o
+                0x00000000000041e1                HariMain
 
-.data           0x0000000000310000     0x1433 load address 0x0000000000004c1a
+.data           0x0000000000310000     0x145e load address 0x0000000000004d4c
  *(.data)
  .data          0x0000000000310000     0x1000 hankaku.o
                 0x0000000000310000                hankaku
@@ -206,35 +209,35 @@ LOAD /tmp/ccACPHSe.o
  .data          0x0000000000311140       0xe0 window.o
  .data          0x0000000000311220        0x0 console.o
  .data          0x0000000000311220        0x0 file.o
- .data          0x0000000000311220      0x100 /tmp/ccACPHSe.o
+ .data          0x0000000000311220      0x100 /tmp/ccnfFYq6.o
  *(.rodata*)
  .rodata        0x0000000000311320       0x84 mystd.o
- .rodata        0x00000000003113a4       0x7e console.o
- .rodata        0x0000000000311422       0x11 /tmp/ccACPHSe.o
+ .rodata        0x00000000003113a4       0xa9 console.o
+ .rodata        0x000000000031144d       0x11 /tmp/ccnfFYq6.o
  *(.bss)
- .bss           0x0000000000311433        0x0 hankaku.o
- .bss           0x0000000000311433        0x0 mystd.o
- .bss           0x0000000000311433        0x0 graphic.o
- .bss           0x0000000000311433        0x0 dsctbl.o
- .bss           0x0000000000311433        0x0 int.o
- .bss           0x0000000000311433        0x0 fifo.o
- .bss           0x0000000000311433        0x0 keyboard.o
- .bss           0x0000000000311433        0x0 mouse.o
- .bss           0x0000000000311433        0x0 memory.o
- .bss           0x0000000000311433        0x0 sheet.o
- .bss           0x0000000000311433        0x0 timer.o
- .bss           0x0000000000311433        0x0 mtask.o
- .bss           0x0000000000311433        0x0 window.o
- .bss           0x0000000000311433        0x0 console.o
- .bss           0x0000000000311433        0x0 file.o
- .bss           0x0000000000311433        0x0 /tmp/ccACPHSe.o
+ .bss           0x000000000031145e        0x0 hankaku.o
+ .bss           0x000000000031145e        0x0 mystd.o
+ .bss           0x000000000031145e        0x0 graphic.o
+ .bss           0x000000000031145e        0x0 dsctbl.o
+ .bss           0x000000000031145e        0x0 int.o
+ .bss           0x000000000031145e        0x0 fifo.o
+ .bss           0x000000000031145e        0x0 keyboard.o
+ .bss           0x000000000031145e        0x0 mouse.o
+ .bss           0x000000000031145e        0x0 memory.o
+ .bss           0x000000000031145e        0x0 sheet.o
+ .bss           0x000000000031145e        0x0 timer.o
+ .bss           0x000000000031145e        0x0 mtask.o
+ .bss           0x000000000031145e        0x0 window.o
+ .bss           0x000000000031145e        0x0 console.o
+ .bss           0x000000000031145e        0x0 file.o
+ .bss           0x000000000031145e        0x0 /tmp/ccnfFYq6.o
 
 /DISCARD/
  *(.eh_frame)
 OUTPUT(bootpack.hrb binary)
 
-.stab           0x0000000000000000      0x72c
- .stab          0x0000000000000000      0x72c nasmfunc.o
+.stab           0x0000000000000000      0x978
+ .stab          0x0000000000000000      0x978 nasmfunc.o
 
 .stabstr        0x0000000000000000        0xe
  .stabstr       0x0000000000000000        0xe nasmfunc.o
@@ -255,7 +258,7 @@ OUTPUT(bootpack.hrb binary)
  .comment       0x00000000000000d8       0x12 window.o
  .comment       0x00000000000000ea       0x12 console.o
  .comment       0x00000000000000fc       0x12 file.o
- .comment       0x000000000000010e       0x12 /tmp/ccACPHSe.o
+ .comment       0x000000000000010e       0x12 /tmp/ccnfFYq6.o
 
 .note.GNU-stack
                 0x0000000000000000        0x0
@@ -290,34 +293,34 @@ OUTPUT(bootpack.hrb binary)
  .note.GNU-stack
                 0x0000000000000000        0x0 file.o
  .note.GNU-stack
-                0x0000000000000000        0x0 /tmp/ccACPHSe.o
+                0x0000000000000000        0x0 /tmp/ccnfFYq6.o
 
-.bss            0x0000000000311440     0x2744 load address 0x0000000000006060
- COMMON         0x0000000000311440        0x8 keyboard.o
-                0x0000000000311440                keyfifo
-                0x0000000000311444                keydata0
- COMMON         0x0000000000311448        0x8 mouse.o
-                0x0000000000311448                mousedata0
-                0x000000000031144c                mousefifo
- *fill*         0x0000000000311450       0x10 
- COMMON         0x0000000000311460     0x271c timer.o
-                0x0000000000311460                timerctl
- COMMON         0x0000000000313b7c        0x8 mtask.o
-                0x0000000000313b7c                taskctl
-                0x0000000000313b80                task_timer
+.bss            0x0000000000311460     0x2744 load address 0x00000000000061c0
+ COMMON         0x0000000000311460        0x8 keyboard.o
+                0x0000000000311460                keyfifo
+                0x0000000000311464                keydata0
+ COMMON         0x0000000000311468        0x8 mouse.o
+                0x0000000000311468                mousedata0
+                0x000000000031146c                mousefifo
+ *fill*         0x0000000000311470       0x10 
+ COMMON         0x0000000000311480     0x271c timer.o
+                0x0000000000311480                timerctl
+ COMMON         0x0000000000313b9c        0x8 mtask.o
+                0x0000000000313b9c                taskctl
+                0x0000000000313ba0                task_timer
 
 .debug_info     0x0000000000000000      0x80b
- .debug_info    0x0000000000000000      0x80b /tmp/ccACPHSe.o
+ .debug_info    0x0000000000000000      0x80b /tmp/ccnfFYq6.o
 
 .debug_abbrev   0x0000000000000000       0xfb
- .debug_abbrev  0x0000000000000000       0xfb /tmp/ccACPHSe.o
+ .debug_abbrev  0x0000000000000000       0xfb /tmp/ccnfFYq6.o
 
 .debug_aranges  0x0000000000000000       0x20
  .debug_aranges
-                0x0000000000000000       0x20 /tmp/ccACPHSe.o
+                0x0000000000000000       0x20 /tmp/ccnfFYq6.o
 
 .debug_line     0x0000000000000000      0x337
- .debug_line    0x0000000000000000      0x337 /tmp/ccACPHSe.o
+ .debug_line    0x0000000000000000      0x337 /tmp/ccnfFYq6.o
 
 .debug_str      0x0000000000000000      0x2ef
- .debug_str     0x0000000000000000      0x2ef /tmp/ccACPHSe.o
+ .debug_str     0x0000000000000000      0x2ef /tmp/ccnfFYq6.o

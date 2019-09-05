@@ -44,21 +44,28 @@ bootpack.hrb : bootpack.c har.ld $(OBJS_BOOTPACK)  Makefile
 haribote.sys : nasmhead.bin bootpack.hrb Makefile
 	cat nasmhead.bin bootpack.hrb > haribote.sys
 
+a_nasm.o : a_nasm.asm Makefile
+	nasm -f elf32 -o $@ $<
+
 hello.hrb : hello.asm Makefile
 	nasm -o $@ $<
 
 hello2.hrb : hello2.asm Makefile
 	nasm -o $@ $<
 
-hello3.hrb : hello3.c a_nasm.asm api.ld Makefile
-	gcc $(CFLAGS) -c -o hello3.o hello3.c
-	gcc $(CFLAGS) -T api.ld -o hello3.hrb a_nasm.o hello3.o
+hello3.hrb : hello3.o a_nasm.o api.ld Makefile
+	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
 
-a.hrb : a.c a_nasm.asm api.ld Makefile
-	gcc $(CFLAGS) -c -o a.o a.c
-	gcc $(CFLAGS) -T api.ld -o a.hrb a_nasm.o a.o
+a.hrb : a.o a_nasm.o api.ld Makefile
+	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
 
-haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb a.hrb Makefile
+crack1.hrb : crack1.o api.ld Makefile
+	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
+
+crack2.hrb : crack2.asm Makefile
+	nasm -o $@ $<
+
+haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb a.hrb crack1.hrb crack2.hrb Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
 	mcopy -i haribote.img haribote.sys ::
 	mcopy -i haribote.img mystd.c ::
@@ -66,6 +73,8 @@ haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb a.hrb Make
 	mcopy -i haribote.img hello2.hrb ::
 	mcopy -i haribote.img hello3.hrb ::
 	mcopy -i haribote.img a.hrb ::
+	mcopy -i haribote.img crack1.hrb ::
+	mcopy -i haribote.img crack2.hrb ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

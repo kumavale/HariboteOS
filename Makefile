@@ -50,12 +50,22 @@ hello.hrb : hello.asm Makefile
 hello2.hrb : hello2.asm Makefile
 	nasm -o $@ $<
 
-haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb Makefile
+hello3.hrb : hello3.c a_nasm.asm api.ld Makefile
+	gcc $(CFLAGS) -c -o hello3.o hello3.c
+	gcc $(CFLAGS) -T api.ld -o hello3.hrb a_nasm.o hello3.o
+
+a.hrb : a.c a_nasm.asm api.ld Makefile
+	gcc $(CFLAGS) -c -o a.o a.c
+	gcc $(CFLAGS) -T api.ld -o a.hrb a_nasm.o a.o
+
+haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb a.hrb Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
 	mcopy -i haribote.img haribote.sys ::
 	mcopy -i haribote.img mystd.c ::
 	mcopy -i haribote.img hello.hrb ::
 	mcopy -i haribote.img hello2.hrb ::
+	mcopy -i haribote.img hello3.hrb ::
+	mcopy -i haribote.img a.hrb ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

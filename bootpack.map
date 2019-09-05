@@ -26,7 +26,7 @@ Discarded input sections
  .eh_frame      0x0000000000000000       0xb0 window.o
  .eh_frame      0x0000000000000000      0x1c0 console.o
  .eh_frame      0x0000000000000000       0x78 file.o
- .eh_frame      0x0000000000000000       0x34 /tmp/cck3CgdL.o
+ .eh_frame      0x0000000000000000       0x34 /tmp/ccACPHSe.o
 
 Memory Configuration
 
@@ -51,20 +51,20 @@ LOAD mtask.o
 LOAD window.o
 LOAD console.o
 LOAD file.o
-LOAD /tmp/cck3CgdL.o
+LOAD /tmp/ccACPHSe.o
 
 .head           0x0000000000000000       0x24
                 0x0000000000000000        0x4 LONG 0x10000
                 0x0000000000000004        0x4 LONG 0x69726148
                 0x0000000000000008        0x4 LONG 0x0
                 0x000000000000000c        0x4 LONG 0x310000
-                0x0000000000000010        0x4 LONG 0x142e SIZEOF (.data)
-                0x0000000000000014        0x4 LONG 0x4ba3 LOADADDR (.data)
+                0x0000000000000010        0x4 LONG 0x1433 SIZEOF (.data)
+                0x0000000000000014        0x4 LONG 0x4c1a LOADADDR (.data)
                 0x0000000000000018        0x4 LONG 0xe9000000
-                0x000000000000001c        0x4 LONG 0x4018 (HariMain - 0x20)
+                0x000000000000001c        0x4 LONG 0x408f (HariMain - 0x20)
                 0x0000000000000020        0x4 LONG 0x0
 
-.text           0x0000000000000030     0x4b73
+.text           0x0000000000000030     0x4bea
  *(.text)
  .text          0x0000000000000030      0x136 nasmfunc.o
                 0x0000000000000030                io_hlt
@@ -167,7 +167,7 @@ LOAD /tmp/cck3CgdL.o
                 0x0000000000002d19                make_wtitle8
                 0x0000000000002e0a                putfonts8_asc_sht
                 0x0000000000002eaa                make_textbox8
- .text          0x00000000000030aa      0xcd7 console.o
+ .text          0x00000000000030aa      0xd4e console.o
                 0x00000000000030aa                console_task
                 0x0000000000003451                cons_putchar
                 0x0000000000003556                cons_newline
@@ -180,15 +180,15 @@ LOAD /tmp/cck3CgdL.o
                 0x00000000000039a6                cmd_cat
                 0x0000000000003a73                cmd_hlt
                 0x0000000000003b88                cmd_app
-                0x0000000000003d17                hrb_api
- .text          0x0000000000003d81      0x2b7 file.o
-                0x0000000000003d81                file_readfat
-                0x0000000000003e31                file_loadfile
-                0x0000000000003ed5                file_search
- .text          0x0000000000004038      0xb6b /tmp/cck3CgdL.o
-                0x0000000000004038                HariMain
+                0x0000000000003d7a                hrb_api
+ .text          0x0000000000003df8      0x2b7 file.o
+                0x0000000000003df8                file_readfat
+                0x0000000000003ea8                file_loadfile
+                0x0000000000003f4c                file_search
+ .text          0x00000000000040af      0xb6b /tmp/ccACPHSe.o
+                0x00000000000040af                HariMain
 
-.data           0x0000000000310000     0x142e load address 0x0000000000004ba3
+.data           0x0000000000310000     0x1433 load address 0x0000000000004c1a
  *(.data)
  .data          0x0000000000310000     0x1000 hankaku.o
                 0x0000000000310000                hankaku
@@ -206,28 +206,28 @@ LOAD /tmp/cck3CgdL.o
  .data          0x0000000000311140       0xe0 window.o
  .data          0x0000000000311220        0x0 console.o
  .data          0x0000000000311220        0x0 file.o
- .data          0x0000000000311220      0x100 /tmp/cck3CgdL.o
+ .data          0x0000000000311220      0x100 /tmp/ccACPHSe.o
  *(.rodata*)
  .rodata        0x0000000000311320       0x84 mystd.o
- .rodata        0x00000000003113a4       0x79 console.o
- .rodata        0x000000000031141d       0x11 /tmp/cck3CgdL.o
+ .rodata        0x00000000003113a4       0x7e console.o
+ .rodata        0x0000000000311422       0x11 /tmp/ccACPHSe.o
  *(.bss)
- .bss           0x000000000031142e        0x0 hankaku.o
- .bss           0x000000000031142e        0x0 mystd.o
- .bss           0x000000000031142e        0x0 graphic.o
- .bss           0x000000000031142e        0x0 dsctbl.o
- .bss           0x000000000031142e        0x0 int.o
- .bss           0x000000000031142e        0x0 fifo.o
- .bss           0x000000000031142e        0x0 keyboard.o
- .bss           0x000000000031142e        0x0 mouse.o
- .bss           0x000000000031142e        0x0 memory.o
- .bss           0x000000000031142e        0x0 sheet.o
- .bss           0x000000000031142e        0x0 timer.o
- .bss           0x000000000031142e        0x0 mtask.o
- .bss           0x000000000031142e        0x0 window.o
- .bss           0x000000000031142e        0x0 console.o
- .bss           0x000000000031142e        0x0 file.o
- .bss           0x000000000031142e        0x0 /tmp/cck3CgdL.o
+ .bss           0x0000000000311433        0x0 hankaku.o
+ .bss           0x0000000000311433        0x0 mystd.o
+ .bss           0x0000000000311433        0x0 graphic.o
+ .bss           0x0000000000311433        0x0 dsctbl.o
+ .bss           0x0000000000311433        0x0 int.o
+ .bss           0x0000000000311433        0x0 fifo.o
+ .bss           0x0000000000311433        0x0 keyboard.o
+ .bss           0x0000000000311433        0x0 mouse.o
+ .bss           0x0000000000311433        0x0 memory.o
+ .bss           0x0000000000311433        0x0 sheet.o
+ .bss           0x0000000000311433        0x0 timer.o
+ .bss           0x0000000000311433        0x0 mtask.o
+ .bss           0x0000000000311433        0x0 window.o
+ .bss           0x0000000000311433        0x0 console.o
+ .bss           0x0000000000311433        0x0 file.o
+ .bss           0x0000000000311433        0x0 /tmp/ccACPHSe.o
 
 /DISCARD/
  *(.eh_frame)
@@ -255,7 +255,7 @@ OUTPUT(bootpack.hrb binary)
  .comment       0x00000000000000d8       0x12 window.o
  .comment       0x00000000000000ea       0x12 console.o
  .comment       0x00000000000000fc       0x12 file.o
- .comment       0x000000000000010e       0x12 /tmp/cck3CgdL.o
+ .comment       0x000000000000010e       0x12 /tmp/ccACPHSe.o
 
 .note.GNU-stack
                 0x0000000000000000        0x0
@@ -290,9 +290,9 @@ OUTPUT(bootpack.hrb binary)
  .note.GNU-stack
                 0x0000000000000000        0x0 file.o
  .note.GNU-stack
-                0x0000000000000000        0x0 /tmp/cck3CgdL.o
+                0x0000000000000000        0x0 /tmp/ccACPHSe.o
 
-.bss            0x0000000000311440     0x2744 load address 0x0000000000006000
+.bss            0x0000000000311440     0x2744 load address 0x0000000000006060
  COMMON         0x0000000000311440        0x8 keyboard.o
                 0x0000000000311440                keyfifo
                 0x0000000000311444                keydata0
@@ -307,17 +307,17 @@ OUTPUT(bootpack.hrb binary)
                 0x0000000000313b80                task_timer
 
 .debug_info     0x0000000000000000      0x80b
- .debug_info    0x0000000000000000      0x80b /tmp/cck3CgdL.o
+ .debug_info    0x0000000000000000      0x80b /tmp/ccACPHSe.o
 
 .debug_abbrev   0x0000000000000000       0xfb
- .debug_abbrev  0x0000000000000000       0xfb /tmp/cck3CgdL.o
+ .debug_abbrev  0x0000000000000000       0xfb /tmp/ccACPHSe.o
 
 .debug_aranges  0x0000000000000000       0x20
  .debug_aranges
-                0x0000000000000000       0x20 /tmp/cck3CgdL.o
+                0x0000000000000000       0x20 /tmp/ccACPHSe.o
 
 .debug_line     0x0000000000000000      0x337
- .debug_line    0x0000000000000000      0x337 /tmp/cck3CgdL.o
+ .debug_line    0x0000000000000000      0x337 /tmp/ccACPHSe.o
 
 .debug_str      0x0000000000000000      0x2ef
- .debug_str     0x0000000000000000      0x2ef /tmp/cck3CgdL.o
+ .debug_str     0x0000000000000000      0x2ef /tmp/ccACPHSe.o

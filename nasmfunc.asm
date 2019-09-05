@@ -9,13 +9,13 @@ global load_gdtr, load_idtr
 global load_cr0, store_cr0
 global load_tr
 global asm_inthandler20, asm_inthandler21, asm_inthandler27, asm_inthandler2c
-global asm_inthandler0d
-global memtest_sub
+global asm_inthandler0c, asm_inthandler0d
+global asm_end_app, memtest_sub
 global farjmp, farcall
 global asm_hrb_api, start_app
 
 extern inthandler20, inthandler21, inthandler27, inthandler2c
-extern inthandler0d
+extern inthandler0c, inthandler0d
 extern hrb_api
 
 section .text
@@ -163,6 +163,26 @@ asm_inthandler2c:
     POP     ES
     IRETD
 
+asm_inthandler0c:
+    STI
+    PUSH    ES
+    PUSH    DS
+    PUSHAD
+    MOV     EAX,ESP
+    PUSH    EAX
+    MOV     AX,SS
+    MOV     DS,AX
+    MOV     ES,AX
+    CALL    inthandler0c
+    CMP     EAX,0
+    JNE     asm_end_app
+    POP     EAX
+    POPAD
+    POP     DS
+    POP     ES
+    ADD     ESP,4
+    IRETD
+
 asm_inthandler0d:
     STI
     PUSH    ES
@@ -175,7 +195,7 @@ asm_inthandler0d:
     MOV     ES,AX
     CALL    inthandler0d
     CMP     EAX,0
-    JNE     end_app
+    JNE     asm_end_app
     POP     EAX
     POPAD
     POP     DS
@@ -244,16 +264,18 @@ asm_hrb_api:
     MOV     ES,AX
     CALL    hrb_api
     CMP     EAX,0
-    JNE     end_app
+    JNE     asm_end_app
     ADD     ESP,32
     POPAD
     POP     ES
     POP     DS
     IRETD
-end_app:
+asm_end_app:
     MOV     ESP,[EAX]
+	MOV     DWORD [EAX+4], 0
     POPAD
     RET
+
 
 start_app:
     PUSHAD

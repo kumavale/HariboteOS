@@ -59,7 +59,16 @@ hello3.hrb : hello3.o a_nasm.o api.ld Makefile
 a.hrb : a.o a_nasm.o api.ld Makefile
 	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
 
-haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb a.hrb Makefile
+bug1.hrb : bug1.c a_nasm.o api.ld Makefile
+	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
+
+bug2.hrb : bug2.c api.ld Makefile
+	gcc $(CFLAGS) -T api.ld -o $@ $<
+
+bug3.hrb : bug3.c a_nasm.o api.ld Makefile
+	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
+
+haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb a.hrb bug1.hrb bug2.hrb bug3.hrb Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
 	mcopy -i haribote.img haribote.sys ::
 	mcopy -i haribote.img mystd.c ::
@@ -67,6 +76,9 @@ haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb a.hrb Make
 	mcopy -i haribote.img hello2.hrb ::
 	mcopy -i haribote.img hello3.hrb ::
 	mcopy -i haribote.img a.hrb ::
+	mcopy -i haribote.img bug1.hrb ::
+	mcopy -i haribote.img bug2.hrb ::
+	mcopy -i haribote.img bug3.hrb ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

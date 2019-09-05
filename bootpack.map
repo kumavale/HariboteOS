@@ -26,7 +26,7 @@ Discarded input sections
  .eh_frame      0x0000000000000000       0xb0 window.o
  .eh_frame      0x0000000000000000      0x1e0 console.o
  .eh_frame      0x0000000000000000       0x78 file.o
- .eh_frame      0x0000000000000000       0x34 /tmp/ccnfFYq6.o
+ .eh_frame      0x0000000000000000       0x34 /tmp/ccluzgfv.o
 
 Memory Configuration
 
@@ -51,7 +51,7 @@ LOAD mtask.o
 LOAD window.o
 LOAD console.o
 LOAD file.o
-LOAD /tmp/ccnfFYq6.o
+LOAD /tmp/ccluzgfv.o
 
 .head           0x0000000000000000       0x24
                 0x0000000000000000        0x4 LONG 0x10000
@@ -188,7 +188,7 @@ LOAD /tmp/ccnfFYq6.o
                 0x0000000000003f2a                file_readfat
                 0x0000000000003fda                file_loadfile
                 0x000000000000407e                file_search
- .text          0x00000000000041e1      0xb6b /tmp/ccnfFYq6.o
+ .text          0x00000000000041e1      0xb6b /tmp/ccluzgfv.o
                 0x00000000000041e1                HariMain
 
 .data           0x0000000000310000     0x145e load address 0x0000000000004d4c
@@ -209,11 +209,11 @@ LOAD /tmp/ccnfFYq6.o
  .data          0x0000000000311140       0xe0 window.o
  .data          0x0000000000311220        0x0 console.o
  .data          0x0000000000311220        0x0 file.o
- .data          0x0000000000311220      0x100 /tmp/ccnfFYq6.o
+ .data          0x0000000000311220      0x100 /tmp/ccluzgfv.o
  *(.rodata*)
  .rodata        0x0000000000311320       0x84 mystd.o
  .rodata        0x00000000003113a4       0xa9 console.o
- .rodata        0x000000000031144d       0x11 /tmp/ccnfFYq6.o
+ .rodata        0x000000000031144d       0x11 /tmp/ccluzgfv.o
  *(.bss)
  .bss           0x000000000031145e        0x0 hankaku.o
  .bss           0x000000000031145e        0x0 mystd.o
@@ -230,7 +230,7 @@ LOAD /tmp/ccnfFYq6.o
  .bss           0x000000000031145e        0x0 window.o
  .bss           0x000000000031145e        0x0 console.o
  .bss           0x000000000031145e        0x0 file.o
- .bss           0x000000000031145e        0x0 /tmp/ccnfFYq6.o
+ .bss           0x000000000031145e        0x0 /tmp/ccluzgfv.o
 
 /DISCARD/
  *(.eh_frame)
@@ -258,7 +258,7 @@ OUTPUT(bootpack.hrb binary)
  .comment       0x00000000000000d8       0x12 window.o
  .comment       0x00000000000000ea       0x12 console.o
  .comment       0x00000000000000fc       0x12 file.o
- .comment       0x000000000000010e       0x12 /tmp/ccnfFYq6.o
+ .comment       0x000000000000010e       0x12 /tmp/ccluzgfv.o
 
 .note.GNU-stack
                 0x0000000000000000        0x0
@@ -293,7 +293,7 @@ OUTPUT(bootpack.hrb binary)
  .note.GNU-stack
                 0x0000000000000000        0x0 file.o
  .note.GNU-stack
-                0x0000000000000000        0x0 /tmp/ccnfFYq6.o
+                0x0000000000000000        0x0 /tmp/ccluzgfv.o
 
 .bss            0x0000000000311460     0x2744 load address 0x00000000000061c0
  COMMON         0x0000000000311460        0x8 keyboard.o
@@ -310,17 +310,17 @@ OUTPUT(bootpack.hrb binary)
                 0x0000000000313ba0                task_timer
 
 .debug_info     0x0000000000000000      0x80b
- .debug_info    0x0000000000000000      0x80b /tmp/ccnfFYq6.o
+ .debug_info    0x0000000000000000      0x80b /tmp/ccluzgfv.o
 
 .debug_abbrev   0x0000000000000000       0xfb
- .debug_abbrev  0x0000000000000000       0xfb /tmp/ccnfFYq6.o
+ .debug_abbrev  0x0000000000000000       0xfb /tmp/ccluzgfv.o
 
 .debug_aranges  0x0000000000000000       0x20
  .debug_aranges
-                0x0000000000000000       0x20 /tmp/ccnfFYq6.o
+                0x0000000000000000       0x20 /tmp/ccluzgfv.o
 
 .debug_line     0x0000000000000000      0x337
- .debug_line    0x0000000000000000      0x337 /tmp/ccnfFYq6.o
+ .debug_line    0x0000000000000000      0x337 /tmp/ccluzgfv.o
 
 .debug_str      0x0000000000000000      0x2ef
- .debug_str     0x0000000000000000      0x2ef /tmp/ccnfFYq6.o
+ .debug_str     0x0000000000000000      0x2ef /tmp/ccluzgfv.o

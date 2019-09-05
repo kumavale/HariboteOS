@@ -208,15 +208,16 @@ farjmp:   ; void farjmp(int eip, int cs);
     RET
 
 farcall:  ; void farcall(int eip, int cs);
-	CALL    FAR [ESP+4]              ; eip, cs
-	RET
+    CALL    FAR [ESP+4]              ; eip, cs
+    RET
 
 asm_cons_putchar:
+    STI
     PUSH    1
     AND     EAX, 0xff
     PUSH    EAX
     PUSH    DWORD [0x0fec]
     CALL    cons_putchar
     ADD     ESP, 12
-    RETF
+    IRETD
 

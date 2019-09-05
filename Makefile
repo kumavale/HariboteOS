@@ -47,11 +47,15 @@ haribote.sys : nasmhead.bin bootpack.hrb Makefile
 hello.hrb : hello.asm Makefile
 	nasm -o $@ $<
 
-haribote.img : ipl10.bin haribote.sys hello.hrb Makefile
+hello2.hrb : hello2.asm Makefile
+	nasm -o $@ $<
+
+haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
 	mcopy -i haribote.img haribote.sys ::
 	mcopy -i haribote.img mystd.c ::
 	mcopy -i haribote.img hello.hrb ::
+	mcopy -i haribote.img hello2.hrb ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

@@ -26,7 +26,7 @@ Discarded input sections
  .eh_frame      0x0000000000000000       0xb0 window.o
  .eh_frame      0x0000000000000000      0x204 console.o
  .eh_frame      0x0000000000000000       0x78 file.o
- .eh_frame      0x0000000000000000       0x34 /tmp/ccA3WamI.o
+ .eh_frame      0x0000000000000000       0x34 /tmp/cc4WzTqh.o
 
 Memory Configuration
 
@@ -51,7 +51,7 @@ LOAD mtask.o
 LOAD window.o
 LOAD console.o
 LOAD file.o
-LOAD /tmp/ccA3WamI.o
+LOAD /tmp/cc4WzTqh.o
 
 .head           0x0000000000000000       0x24
                 0x0000000000000000        0x4 LONG 0x10000
@@ -191,7 +191,7 @@ LOAD /tmp/ccA3WamI.o
                 0x00000000000041d9                file_readfat
                 0x0000000000004289                file_loadfile
                 0x000000000000432d                file_search
- .text          0x0000000000004490      0xbce /tmp/ccA3WamI.o
+ .text          0x0000000000004490      0xbce /tmp/cc4WzTqh.o
                 0x0000000000004490                HariMain
 
 .data           0x0000000000310000     0x14ad load address 0x000000000000505e
@@ -212,11 +212,11 @@ LOAD /tmp/ccA3WamI.o
  .data          0x0000000000311140       0xe0 window.o
  .data          0x0000000000311220        0x0 console.o
  .data          0x0000000000311220        0x0 file.o
- .data          0x0000000000311220      0x100 /tmp/ccA3WamI.o
+ .data          0x0000000000311220      0x100 /tmp/cc4WzTqh.o
  *(.rodata*)
  .rodata        0x0000000000311320       0x84 mystd.o
  .rodata        0x00000000003113a4       0xe9 console.o
- .rodata        0x000000000031148d       0x20 /tmp/ccA3WamI.o
+ .rodata        0x000000000031148d       0x20 /tmp/cc4WzTqh.o
  *(.bss)
  .bss           0x00000000003114ad        0x0 hankaku.o
  .bss           0x00000000003114ad        0x0 mystd.o
@@ -233,7 +233,7 @@ LOAD /tmp/ccA3WamI.o
  .bss           0x00000000003114ad        0x0 window.o
  .bss           0x00000000003114ad        0x0 console.o
  .bss           0x00000000003114ad        0x0 file.o
- .bss           0x00000000003114ad        0x0 /tmp/ccA3WamI.o
+ .bss           0x00000000003114ad        0x0 /tmp/cc4WzTqh.o
 
 /DISCARD/
  *(.eh_frame)
@@ -261,7 +261,7 @@ OUTPUT(bootpack.hrb binary)
  .comment       0x00000000000000d8       0x12 window.o
  .comment       0x00000000000000ea       0x12 console.o
  .comment       0x00000000000000fc       0x12 file.o
- .comment       0x000000000000010e       0x12 /tmp/ccA3WamI.o
+ .comment       0x000000000000010e       0x12 /tmp/cc4WzTqh.o
 
 .note.GNU-stack
                 0x0000000000000000        0x0
@@ -296,7 +296,7 @@ OUTPUT(bootpack.hrb binary)
  .note.GNU-stack
                 0x0000000000000000        0x0 file.o
  .note.GNU-stack
-                0x0000000000000000        0x0 /tmp/ccA3WamI.o
+                0x0000000000000000        0x0 /tmp/cc4WzTqh.o
 
 .bss            0x00000000003114c0     0x2744 load address 0x0000000000006520
  COMMON         0x00000000003114c0        0x8 keyboard.o
@@ -313,17 +313,17 @@ OUTPUT(bootpack.hrb binary)
                 0x0000000000313c00                task_timer
 
 .debug_info     0x0000000000000000      0x867
- .debug_info    0x0000000000000000      0x867 /tmp/ccA3WamI.o
+ .debug_info    0x0000000000000000      0x867 /tmp/cc4WzTqh.o
 
 .debug_abbrev   0x0000000000000000       0xf4
- .debug_abbrev  0x0000000000000000       0xf4 /tmp/ccA3WamI.o
+ .debug_abbrev  0x0000000000000000       0xf4 /tmp/cc4WzTqh.o
 
 .debug_aranges  0x0000000000000000       0x20
  .debug_aranges
-                0x0000000000000000       0x20 /tmp/ccA3WamI.o
+                0x0000000000000000       0x20 /tmp/cc4WzTqh.o
 
 .debug_line     0x0000000000000000      0x373
- .debug_line    0x0000000000000000      0x373 /tmp/ccA3WamI.o
+ .debug_line    0x0000000000000000      0x373 /tmp/cc4WzTqh.o
 
 .debug_str      0x0000000000000000      0x30e
- .debug_str     0x0000000000000000      0x30e /tmp/ccA3WamI.o
+ .debug_str     0x0000000000000000      0x30e /tmp/cc4WzTqh.o

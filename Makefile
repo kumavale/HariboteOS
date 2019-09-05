@@ -62,22 +62,13 @@ hello4.hrb : hello4.o a_nasm.o api.ld Makefile
 a.hrb : a.o a_nasm.o api.ld Makefile
 	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
 
-bug1.hrb : bug1.c a_nasm.o api.ld Makefile
-	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
-
-bug2.hrb : bug2.c api.ld Makefile
-	gcc $(CFLAGS) -T api.ld -o $@ $<
-
-bug3.hrb : bug3.c a_nasm.o api.ld Makefile
-	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
-
 winhelo.hrb : winhelo.c a_nasm.o api.ld Makefile
 	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
 
 winhelo2.hrb : winhelo2.c a_nasm.o api.ld Makefile
 	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
 
-haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb hello4.hrb a.hrb bug1.hrb bug2.hrb bug3.hrb winhelo.hrb winhelo2.hrb Makefile
+haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb hello4.hrb a.hrb winhelo.hrb winhelo2.hrb Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
 	mcopy -i haribote.img haribote.sys ::
 	mcopy -i haribote.img mystd.c ::
@@ -86,9 +77,6 @@ haribote.img : ipl10.bin haribote.sys hello.hrb hello2.hrb hello3.hrb hello4.hrb
 	mcopy -i haribote.img hello3.hrb ::
 	mcopy -i haribote.img hello4.hrb ::
 	mcopy -i haribote.img a.hrb ::
-	mcopy -i haribote.img bug1.hrb ::
-	mcopy -i haribote.img bug2.hrb ::
-	mcopy -i haribote.img bug3.hrb ::
 	mcopy -i haribote.img winhelo.hrb ::
 	mcopy -i haribote.img winhelo2.hrb ::
 	@echo -e "\033[36mCompiled complete!\033[m"

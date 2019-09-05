@@ -39,10 +39,13 @@ mysprintf.o : mysprintf.c Makefile
 
 bootpack.hrb : bootpack.c har.ld $(OBJS_BOOTPACK)  Makefile
 	@echo -e "[\033[35mIf an error occurs in the next gcc, check if you specified an object file.\033[m]"
-	gcc $(CFLAGS) $(OBJS_BOOTPACK) -T har.ld -g bootpack.c -o bootpack.hrb
+	gcc -Wl,-Map=bootpack.map $(CFLAGS) $(OBJS_BOOTPACK) -T har.ld -g bootpack.c -o bootpack.hrb
 
 haribote.sys : nasmhead.bin bootpack.hrb Makefile
 	cat nasmhead.bin bootpack.hrb > haribote.sys
+
+hlt.hrb : hlt.asm Makefile
+	nasm -o hlt.hrb hlt.asm
 
 haribote.img : ipl10.bin haribote.sys hlt.hrb Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::

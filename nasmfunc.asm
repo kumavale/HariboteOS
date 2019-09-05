@@ -10,9 +10,11 @@ global load_cr0, store_cr0
 global load_tr
 global asm_inthandler20, asm_inthandler21, asm_inthandler27, asm_inthandler2c
 global memtest_sub
-global farjmp
+global farjmp, farcall
+global asm_cons_putchar
 
 extern inthandler20, inthandler21, inthandler27, inthandler2c
+extern cons_putchar
 
 section .text
 
@@ -204,4 +206,17 @@ mts_fin:
 farjmp:   ; void farjmp(int eip, int cs);
     JMP     FAR [ESP+4]              ; eip, cs
     RET
+
+farcall:  ; void farcall(int eip, int cs);
+	CALL    FAR [ESP+4]              ; eip, cs
+	RET
+
+asm_cons_putchar:
+    PUSH    1
+    AND     EAX, 0xff
+    PUSH    EAX
+    PUSH    DWORD [0x0fec]
+    CALL    cons_putchar
+    ADD     ESP, 12
+    RETF
 

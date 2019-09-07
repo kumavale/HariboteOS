@@ -54,13 +54,13 @@ a_nasm.o : a_nasm.asm Makefile
 	gcc $(CFLAGS) \
 		-T api.ld -o $@ $< a_nasm.o
 
-stars.hrb : stars.c a_nasm.o api.ld rand.o Makefile
+stars.hrb : stars.c a_nasm.o api.ld mystd.o Makefile
 	gcc $(CFLAGS) \
-		-T api.ld -o $@ $< a_nasm.o rand.o
+		-T api.ld -o $@ $< a_nasm.o mystd.o
 
-stars2.hrb : stars2.c a_nasm.o api.ld rand.o Makefile
+stars2.hrb : stars2.c a_nasm.o api.ld mystd.o Makefile
 	gcc $(CFLAGS) \
-		-T api.ld -o $@ $< a_nasm.o rand.o
+		-T api.ld -o $@ $< a_nasm.o mystd.o
 
 noodle.hrb : noodle.o a_nasm.o api.ld mystd.o Makefile
 	gcc $(CFLAGS) -Wl,-Map=noodle.map -T api.ld -o $@ $< a_nasm.o mystd.o

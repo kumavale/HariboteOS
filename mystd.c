@@ -165,3 +165,18 @@ int strncmp(const char *str1, const char *str2, int n)
     return 0;
 }
 
+
+static unsigned long int next = 1;
+int rand(void)
+{
+    next *= 1103515245;
+    next += 12345;
+
+    return (unsigned int) next % (RAND_MAX + 1);
+}
+
+void srand(int seed)
+{
+    next = seed;
+}
+

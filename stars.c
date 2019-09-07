@@ -5,9 +5,7 @@ char *api_malloc(int size);
 void api_point(int win, int x, int y, int col);
 void api_end(void);
 
-#include "rand.h"
-int rand(void);  /* 0～32767 */
-void srand(int seed);
+#include "mystd.h"
 
 void HariMain(void)
 {
@@ -24,6 +22,11 @@ void HariMain(void)
         api_point(win, x, y, 3 /* Yellow */);
     }
 
+    for (;;) {
+        if (api_getkey(1) != 128) {
+            break;
+        }
+    }
     api_end();
 }
 

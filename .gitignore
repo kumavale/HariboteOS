@@ -1,7 +1,8 @@
 *.bin
 *.hrb
-*.o
 *.img
+*.map
+*.o
 *.sys
 
 tmp*

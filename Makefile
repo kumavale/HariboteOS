@@ -35,11 +35,11 @@ hankaku.o : bin2ary hankaku.bin Makefile
 	gcc $(CFLAGS) \
 		-c -o $*.o $*.c
 
-bootpack.hrb : bootpack.c har.ld $(OBJS_BOOTPACK)  Makefile
+bootpack.hrb : bootpack.o har.ld $(OBJS_BOOTPACK)  Makefile
 	@echo -e "[\033[35mIf an error occurs in the next gcc, check if you specified an object file.\033[m]"
 	gcc $(CFLAGS) \
 		$(OBJS_BOOTPACK) \
-		-Wl,-Map=bootpack.map -T har.ld -g bootpack.c -o bootpack.hrb
+		-Wl,-Map=bootpack.map -T har.ld bootpack.o -o bootpack.hrb
 
 haribote.sys : nasmhead.bin bootpack.hrb Makefile
 	cat nasmhead.bin bootpack.hrb > haribote.sys
@@ -62,7 +62,7 @@ stars2.hrb : stars2.c a_nasm.o api.ld rand.o Makefile
 	gcc $(CFLAGS) \
 		-T api.ld -o $@ $< a_nasm.o rand.o
 
-noodle.hrb : noodle.c a_nasm.o api.ld mystd.o Makefile
+noodle.hrb : noodle.o a_nasm.o api.ld mystd.o Makefile
 	gcc $(CFLAGS) -Wl,-Map=noodle.map -T api.ld -o $@ $< a_nasm.o mystd.o
 	@#gcc $(CFLAGS) -Wl,-Map=noodle.map -o noodle.o $< -c
 	@#ld -T api.ld -m elf_i386 -o $@ mystd.o noodle.o a_nasm.o --defsym stack=256k --defsym heap=1024k

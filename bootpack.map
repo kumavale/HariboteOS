@@ -26,7 +26,7 @@ Discarded input sections
  .eh_frame      0x0000000000000000       0xd0 window.o
  .eh_frame      0x0000000000000000      0x224 console.o
  .eh_frame      0x0000000000000000       0x78 file.o
- .eh_frame      0x0000000000000000       0x74 /tmp/ccVXqgTS.o
+ .eh_frame      0x0000000000000000       0x74 bootpack.o
 
 Memory Configuration
 
@@ -51,7 +51,7 @@ LOAD mtask.o
 LOAD window.o
 LOAD console.o
 LOAD file.o
-LOAD /tmp/ccVXqgTS.o
+LOAD bootpack.o
 
 .head           0x0000000000000000       0x24
                 0x0000000000000000        0x4 LONG 0x10000
@@ -195,7 +195,7 @@ LOAD /tmp/ccVXqgTS.o
                 0x000000000000490c                file_readfat
                 0x00000000000049bc                file_loadfile
                 0x0000000000004a60                file_search
- .text          0x0000000000004bc3      0xe88 /tmp/ccVXqgTS.o
+ .text          0x0000000000004bc3      0xe88 bootpack.o
                 0x0000000000004bc3                HariMain
                 0x0000000000005983                keywin_off
                 0x00000000000059fb                keywin_on
@@ -218,11 +218,11 @@ LOAD /tmp/ccVXqgTS.o
  .data          0x0000000000311140       0xe0 window.o
  .data          0x0000000000311220        0x0 console.o
  .data          0x0000000000311220        0x0 file.o
- .data          0x0000000000311220      0x100 /tmp/ccVXqgTS.o
+ .data          0x0000000000311220      0x100 bootpack.o
  *(.rodata*)
  .rodata        0x0000000000311320       0x84 mystd.o
  .rodata        0x00000000003113a4       0xe9 console.o
- .rodata        0x000000000031148d       0x31 /tmp/ccVXqgTS.o
+ .rodata        0x000000000031148d       0x31 bootpack.o
  *(.bss)
  .bss           0x00000000003114be        0x0 hankaku.o
  .bss           0x00000000003114be        0x0 mystd.o
@@ -239,7 +239,7 @@ LOAD /tmp/ccVXqgTS.o
  .bss           0x00000000003114be        0x0 window.o
  .bss           0x00000000003114be        0x0 console.o
  .bss           0x00000000003114be        0x0 file.o
- .bss           0x00000000003114be        0x0 /tmp/ccVXqgTS.o
+ .bss           0x00000000003114be        0x0 bootpack.o
 
 /DISCARD/
  *(.eh_frame)
@@ -267,7 +267,7 @@ OUTPUT(bootpack.hrb binary)
  .comment       0x00000000000000d8       0x12 window.o
  .comment       0x00000000000000ea       0x12 console.o
  .comment       0x00000000000000fc       0x12 file.o
- .comment       0x000000000000010e       0x12 /tmp/ccVXqgTS.o
+ .comment       0x000000000000010e       0x12 bootpack.o
 
 .note.GNU-stack
                 0x0000000000000000        0x0
@@ -302,7 +302,7 @@ OUTPUT(bootpack.hrb binary)
  .note.GNU-stack
                 0x0000000000000000        0x0 file.o
  .note.GNU-stack
-                0x0000000000000000        0x0 /tmp/ccVXqgTS.o
+                0x0000000000000000        0x0 bootpack.o
 
 .bss            0x00000000003114c0     0x2744 load address 0x0000000000006f20
  COMMON         0x00000000003114c0        0x8 keyboard.o
@@ -317,19 +317,3 @@ OUTPUT(bootpack.hrb binary)
  COMMON         0x0000000000313bfc        0x8 mtask.o
                 0x0000000000313bfc                taskctl
                 0x0000000000313c00                task_timer
-
-.debug_info     0x0000000000000000      0x995
- .debug_info    0x0000000000000000      0x995 /tmp/ccVXqgTS.o
-
-.debug_abbrev   0x0000000000000000      0x145
- .debug_abbrev  0x0000000000000000      0x145 /tmp/ccVXqgTS.o
-
-.debug_aranges  0x0000000000000000       0x20
- .debug_aranges
-                0x0000000000000000       0x20 /tmp/ccVXqgTS.o
-
-.debug_line     0x0000000000000000      0x513
- .debug_line    0x0000000000000000      0x513 /tmp/ccVXqgTS.o
-
-.debug_str      0x0000000000000000      0x338
- .debug_str     0x0000000000000000      0x338 /tmp/ccVXqgTS.o

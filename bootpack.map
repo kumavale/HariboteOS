@@ -26,7 +26,7 @@ Discarded input sections
  .eh_frame      0x0000000000000000       0xd0 window.o
  .eh_frame      0x0000000000000000      0x224 console.o
  .eh_frame      0x0000000000000000       0x78 file.o
- .eh_frame      0x0000000000000000       0x74 /tmp/ccSCueNP.o
+ .eh_frame      0x0000000000000000       0x74 /tmp/ccMLBHpC.o
 
 Memory Configuration
 
@@ -51,7 +51,7 @@ LOAD mtask.o
 LOAD window.o
 LOAD console.o
 LOAD file.o
-LOAD /tmp/ccSCueNP.o
+LOAD /tmp/ccMLBHpC.o
 
 .head           0x0000000000000000       0x24
                 0x0000000000000000        0x4 LONG 0x10000
@@ -59,12 +59,12 @@ LOAD /tmp/ccSCueNP.o
                 0x0000000000000008        0x4 LONG 0x0
                 0x000000000000000c        0x4 LONG 0x310000
                 0x0000000000000010        0x4 LONG 0x14be SIZEOF (.data)
-                0x0000000000000014        0x4 LONG 0x589d LOADADDR (.data)
+                0x0000000000000014        0x4 LONG 0x58ff LOADADDR (.data)
                 0x0000000000000018        0x4 LONG 0xe9000000
-                0x000000000000001c        0x4 LONG 0x49f5 (HariMain - 0x20)
+                0x000000000000001c        0x4 LONG 0x4a57 (HariMain - 0x20)
                 0x0000000000000020        0x4 LONG 0x0
 
-.text           0x0000000000000030     0x586d
+.text           0x0000000000000030     0x58cf
  *(.text)
  .text          0x0000000000000030      0x1c3 nasmfunc.o
                 0x0000000000000030                io_hlt
@@ -172,7 +172,7 @@ LOAD /tmp/ccSCueNP.o
                 0x0000000000002ee9                putfonts8_asc_sht
                 0x0000000000002f89                make_textbox8
                 0x0000000000003189                change_wtitle8
- .text          0x000000000000326e     0x14f0 console.o
+ .text          0x000000000000326e     0x1552 console.o
                 0x000000000000326e                console_task
                 0x000000000000362c                cons_putchar
                 0x0000000000003731                cons_newline
@@ -186,19 +186,19 @@ LOAD /tmp/ccSCueNP.o
                 0x0000000000003c4e                cmd_hlt
                 0x0000000000003d63                cmd_app
                 0x000000000000406f                hrb_api
-                0x0000000000004576                inthandler0c
-                0x00000000000045d8                inthandler0d
-                0x000000000000463a                hrb_api_linewin
- .text          0x000000000000475e      0x2b7 file.o
-                0x000000000000475e                file_readfat
-                0x000000000000480e                file_loadfile
-                0x00000000000048b2                file_search
- .text          0x0000000000004a15      0xe88 /tmp/ccSCueNP.o
-                0x0000000000004a15                HariMain
-                0x00000000000057d5                keywin_off
-                0x000000000000584d                keywin_on
+                0x00000000000045d8                inthandler0c
+                0x000000000000463a                inthandler0d
+                0x000000000000469c                hrb_api_linewin
+ .text          0x00000000000047c0      0x2b7 file.o
+                0x00000000000047c0                file_readfat
+                0x0000000000004870                file_loadfile
+                0x0000000000004914                file_search
+ .text          0x0000000000004a77      0xe88 /tmp/ccMLBHpC.o
+                0x0000000000004a77                HariMain
+                0x0000000000005837                keywin_off
+                0x00000000000058af                keywin_on
 
-.data           0x0000000000310000     0x14be load address 0x000000000000589d
+.data           0x0000000000310000     0x14be load address 0x00000000000058ff
  *(.data)
  .data          0x0000000000310000     0x1000 hankaku.o
                 0x0000000000310000                hankaku
@@ -216,11 +216,11 @@ LOAD /tmp/ccSCueNP.o
  .data          0x0000000000311140       0xe0 window.o
  .data          0x0000000000311220        0x0 console.o
  .data          0x0000000000311220        0x0 file.o
- .data          0x0000000000311220      0x100 /tmp/ccSCueNP.o
+ .data          0x0000000000311220      0x100 /tmp/ccMLBHpC.o
  *(.rodata*)
  .rodata        0x0000000000311320       0x84 mystd.o
  .rodata        0x00000000003113a4       0xe9 console.o
- .rodata        0x000000000031148d       0x31 /tmp/ccSCueNP.o
+ .rodata        0x000000000031148d       0x31 /tmp/ccMLBHpC.o
  *(.bss)
  .bss           0x00000000003114be        0x0 hankaku.o
  .bss           0x00000000003114be        0x0 mystd.o
@@ -237,7 +237,7 @@ LOAD /tmp/ccSCueNP.o
  .bss           0x00000000003114be        0x0 window.o
  .bss           0x00000000003114be        0x0 console.o
  .bss           0x00000000003114be        0x0 file.o
- .bss           0x00000000003114be        0x0 /tmp/ccSCueNP.o
+ .bss           0x00000000003114be        0x0 /tmp/ccMLBHpC.o
 
 /DISCARD/
  *(.eh_frame)
@@ -265,7 +265,7 @@ OUTPUT(bootpack.hrb binary)
  .comment       0x00000000000000d8       0x12 window.o
  .comment       0x00000000000000ea       0x12 console.o
  .comment       0x00000000000000fc       0x12 file.o
- .comment       0x000000000000010e       0x12 /tmp/ccSCueNP.o
+ .comment       0x000000000000010e       0x12 /tmp/ccMLBHpC.o
 
 .note.GNU-stack
                 0x0000000000000000        0x0
@@ -300,9 +300,9 @@ OUTPUT(bootpack.hrb binary)
  .note.GNU-stack
                 0x0000000000000000        0x0 file.o
  .note.GNU-stack
-                0x0000000000000000        0x0 /tmp/ccSCueNP.o
+                0x0000000000000000        0x0 /tmp/ccMLBHpC.o
 
-.bss            0x00000000003114c0     0x2744 load address 0x0000000000006d60
+.bss            0x00000000003114c0     0x2744 load address 0x0000000000006dc0
  COMMON         0x00000000003114c0        0x8 keyboard.o
                 0x00000000003114c0                keyfifo
                 0x00000000003114c4                keydata0
@@ -317,17 +317,17 @@ OUTPUT(bootpack.hrb binary)
                 0x0000000000313c00                task_timer
 
 .debug_info     0x0000000000000000      0x983
- .debug_info    0x0000000000000000      0x983 /tmp/ccSCueNP.o
+ .debug_info    0x0000000000000000      0x983 /tmp/ccMLBHpC.o
 
 .debug_abbrev   0x0000000000000000      0x123
- .debug_abbrev  0x0000000000000000      0x123 /tmp/ccSCueNP.o
+ .debug_abbrev  0x0000000000000000      0x123 /tmp/ccMLBHpC.o
 
 .debug_aranges  0x0000000000000000       0x20
  .debug_aranges
-                0x0000000000000000       0x20 /tmp/ccSCueNP.o
+                0x0000000000000000       0x20 /tmp/ccMLBHpC.o
 
 .debug_line     0x0000000000000000      0x513
- .debug_line    0x0000000000000000      0x513 /tmp/ccSCueNP.o
+ .debug_line    0x0000000000000000      0x513 /tmp/ccMLBHpC.o
 
-.debug_str      0x0000000000000000      0x324
- .debug_str     0x0000000000000000      0x324 /tmp/ccSCueNP.o
+.debug_str      0x0000000000000000      0x331
+ .debug_str     0x0000000000000000      0x331 /tmp/ccMLBHpC.o

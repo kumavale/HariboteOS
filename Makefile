@@ -7,7 +7,7 @@ OBJS_BOOTPACK=nasmfunc.o hankaku.o mystd.o graphic.o dsctbl.o int.o fifo.o \
 			  console.o file.o
 HRBS=hello.hrb hello2.hrb hello3.hrb hello4.hrb a.hrb winhelo.hrb winhelo2.hrb \
 	 winhelo3.hrb star1.hrb stars.hrb stars2.hrb lines.hrb walk.hrb noodle.hrb \
-	 beepdown.hrb color.hrb color2.hrb sosu.hrb sosu2.hrb catipl.hrb
+	 beepdown.hrb color.hrb color2.hrb sosu.hrb sosu2.hrb catipl.hrb cat.hrb
 
 default:
 	make img
@@ -96,6 +96,7 @@ haribote.img : ipl10.bin haribote.sys $(HRBS) Makefile
 	mcopy -i haribote.img sosu2.hrb ::
 	mcopy -i haribote.img ipl10.asm ::
 	mcopy -i haribote.img catipl.hrb ::
+	mcopy -i haribote.img cat.hrb ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

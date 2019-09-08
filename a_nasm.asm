@@ -17,11 +17,13 @@ global api_inittimer
 global api_settimer
 global api_freetimer
 global api_beep
+
 global api_fopen
 global api_fclose
 global api_fseek
 global api_fsize
 global api_fread
+global api_cmdline
 
 section .text
 
@@ -267,6 +269,15 @@ api_fread:   ; int api_fread(char *buf, int maxsize, int fhandle);
     MOV     ECX,[ESP+12]        ; maxsize
     MOV     EBX,[ESP+8]         ; buf
     INT     0x40
-	POP     EBX
+    POP     EBX
+    RET
+
+api_cmdline:    ; int api_cmdline(char *buf, int maxsize);
+    PUSH    EBX
+    MOV     EDX,26
+    MOV     ECX,[ESP+12]        ; maxsize
+    MOV     EBX,[ESP+8]         ; buf
+    INT     0x40
+    POP     EBX
     RET
 

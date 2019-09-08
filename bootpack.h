@@ -230,6 +230,7 @@ struct TASK {
     int ds_base, cons_stack;
     struct FILEHANDLE *fhandle;
     int *fat;
+    char *cmdline;
 };
 struct TASKLEVEL {
     int running;

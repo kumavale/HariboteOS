@@ -51,6 +51,9 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
                 boxfill8(sheet->buf, sheet->bxsize, COL8_000000, cons.cur_x, cons.cur_y, cons.cur_x + 7, cons.cur_y + 15);
                 cons.cur_c = -1;
             }
+            if (i == 4) {    /* Click 'X' button of console */
+                cmd_exit(&cons, fat);
+            }
             if (256 <= i && i <= 511) {
                 if (i == 8 + 256) {
                     /* Backspace */
@@ -165,6 +168,8 @@ void cons_runcmd(char *cmdline, struct CONSOLE *cons, int *fat, unsigned int mem
         cmd_ls(cons);
     } else if (strncmp(cmdline, "cat ", 4) == 0) {
         cmd_cat(cons, fat, cmdline);
+    } else if (strcmp(cmdline, "exit") == 0) {
+        cmd_exit(cons, fat);
     } else if (cmdline[0] != 0) {
         if (cmd_app(cons, fat, cmdline) == 0) {
             cons_putstr0(cons, "Bad command.\n\n");
@@ -528,5 +533,21 @@ void hrb_api_linewin(struct SHEET *sht, int x0, int y0, int x1, int y1, int col)
     }
 
     return;
+}
+
+void cmd_exit(struct CONSOLE *cons, int *fat)
+{
+    struct MEMMAN *memman = (struct MEMMAN *) MEMMAN_ADDR;
+    struct TASK *task = task_now();
+    struct SHTCTL *shtctl = (struct SHTCTL *) *((int *) 0x0fe4);
+    struct FIFO32 *fifo = (struct FIFO32 *) *((int *) 0x0fec);
+    timer_cancel(cons->timer);
+    memman_free_4k(memman, (int) fat, 4 * 2880);
+    io_cli();
+    fifo32_put(fifo, cons->sht - shtctl->sheets0 + 768);   /* 768 ~ 1023 */
+    io_sti();
+    for (;;) {
+        task_sleep(task);
+    }
 }
 

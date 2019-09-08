@@ -2,7 +2,7 @@
 #include "mystd.h"
 
 
-void console_task(struct SHEET *sheet, unsigned int memtotal)
+void console_task(struct SHEET *sheet, int memtotal)
 {
     struct TASK *task = task_now();
     struct MEMMAN *memman = (struct MEMMAN *) MEMMAN_ADDR;
@@ -10,6 +10,7 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
     struct CONSOLE cons;
     struct FILEHANDLE fhandle[8];
     char cmdline[30];
+    unsigned char *nihongo = (unsigned char *) *((int *) 0x0fe8);
 
     cons.sht = sheet;
     cons.cur_x =  8;
@@ -30,6 +31,12 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
     }
     task->fhandle = fhandle;
     task->fat = fat;
+
+    if (nihongo[4096] != 0xff) {
+        task->langmode = 1;
+    } else {
+        task->langmode = 0;
+    }
 
     cons_putchar(&cons, '>', 1);
 
@@ -184,7 +191,7 @@ void cons_putstr1(struct CONSOLE *cons, char *s, int l)
     return;
 }
 
-void cons_runcmd(char *cmdline, struct CONSOLE *cons, int *fat, unsigned int memtotal)
+void cons_runcmd(char *cmdline, struct CONSOLE *cons, int *fat, int memtotal)
 {
     if (strcmp(cmdline, "mem") == 0 && cons->sht != 0) {
         cmd_mem(cons, memtotal);
@@ -198,6 +205,10 @@ void cons_runcmd(char *cmdline, struct CONSOLE *cons, int *fat, unsigned int mem
         cmd_start(cons, cmdline, memtotal);
     } else if (strncmp(cmdline, "ncst ", 5) == 0) {
         cmd_ncst(cons, cmdline, memtotal);
+    } else if (strcmp(cmdline, "langmode") == 0) {
+        cmd_langmode(cons, cmdline, 1);
+    } else if (strncmp(cmdline, "langmode ", 9) == 0) {
+        cmd_langmode(cons, cmdline, 0);
     } else if (cmdline[0] != 0) {
         if (cmd_app(cons, fat, cmdline) == 0) {
             cons_putstr0(cons, "Bad command.\n\n");
@@ -206,7 +217,7 @@ void cons_runcmd(char *cmdline, struct CONSOLE *cons, int *fat, unsigned int mem
     return;
 }
 
-void cmd_mem(struct CONSOLE *cons, unsigned int memtotal)
+void cmd_mem(struct CONSOLE *cons, int memtotal)
 {
     struct MEMMAN *memman = (struct MEMMAN *) MEMMAN_ADDR;
     char s[64];
@@ -386,7 +397,7 @@ int *hrb_api(int edi, int esi, int ebp, int esp, int ebx, int edx, int ecx, int 
         reg[7] = (int) sht;
     } else if (edx == 6) {
         sht = (struct SHEET *) (ebx & 0xfffffffe);
-        putfonts8_asc(sht->buf, sht->bxsize, esi, edi, eax, (char *) ebp + ds_base);
+        putfonts8_asc(sht->buf, sht->bxsize, esi, edi, eax, (unsigned char *) ebp + ds_base);
         if ((ebx & 1) == 0) {
             sheet_refresh(sht, esi, edi, esi + ecx * 8, edi + 16);
         }
@@ -676,6 +687,26 @@ void cmd_ncst(struct CONSOLE *cons, char *cmdline, int memtotal)
         fifo32_put(fifo, cmdline[i] + 256);
     }
     fifo32_put(fifo, 10 + 256);  /* Enter */
+    cons_newline(cons);
+
+    return;
+}
+
+void cmd_langmode(struct CONSOLE *cons, char *cmdline, int check)
+{
+    struct TASK *task = task_now();
+    unsigned char mode = cmdline[9] - '0';
+
+    if (check || cmdline[9] == 0) {
+        cons_putstr0(cons, task->langmode == 0 ? "* 0: en\n": "  0: en\n");
+        cons_putstr0(cons, task->langmode == 1 ? "* 1: jp\n": "  1: jp\n");
+    } else {
+        if (mode <= 1) {
+            task->langmode = mode;
+        } else {
+            cons_putstr0(cons, "Invalid mode number.\n");
+        }
+    }
     cons_newline(cons);
 
     return;

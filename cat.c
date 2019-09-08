@@ -5,7 +5,7 @@ void HariMain(void)
     int fh;
     char c, cmdline[32], *p;
 
-    api_cmdline(cmdline, 30);
+    api_cmdline(cmdline, 32);
     for (p = cmdline; *p > ' '; ++p) { }  /* Skip until space */
     for (; *p == ' '; ++p) { }  /* Skip space */
     fh = api_fopen(p);

@@ -7,7 +7,7 @@ OBJS_BOOTPACK=nasmfunc.o hankaku.o mystd.o graphic.o dsctbl.o int.o fifo.o \
 			  console.o file.o
 HRBS=hello.hrb hello2.hrb hello3.hrb hello4.hrb a.hrb winhelo.hrb winhelo2.hrb \
 	 winhelo3.hrb star1.hrb stars.hrb stars2.hrb lines.hrb walk.hrb noodle.hrb \
-	 beepdown.hrb color.hrb color2.hrb
+	 beepdown.hrb color.hrb color2.hrb sosu.hrb sosu2.hrb catipl.hrb
 
 default:
 	make img
@@ -54,19 +54,22 @@ a_nasm.o : a_nasm.asm Makefile
 	nasm -o $@ $<
 
 %.hrb : %.c a_nasm.o api.ld Makefile
-	gcc $(CFLAGS) \
-		-T api.ld -o $@ $< a_nasm.o
+	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o
 
 stars.hrb : stars.c a_nasm.o api.ld mystd.o Makefile
-	gcc $(CFLAGS) \
-		-T api.ld -o $@ $< a_nasm.o mystd.o
+	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o mystd.o
 
 stars2.hrb : stars2.c a_nasm.o api.ld mystd.o Makefile
-	gcc $(CFLAGS) \
-		-T api.ld -o $@ $< a_nasm.o mystd.o
+	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o mystd.o
 
 noodle.hrb : noodle.o a_nasm.o api.ld mystd.o Makefile
 	gcc $(CFLAGS) -Wl,-Map=noodle.map -T api.ld -o $@ $< a_nasm.o mystd.o
+
+sosu.hrb : sosu.c a_nasm.o api.ld mystd.o Makefile
+	gcc $(CFLAGS) -T api.ld -o $@ $< a_nasm.o mystd.o
+
+sosu2.hrb : sosu2.c a_nasm.o api.ld mystd.o Makefile
+	gcc $(CFLAGS) -Wl,--defsym,stack=128k -T api.ld -o $@ $< a_nasm.o mystd.o
 
 haribote.img : ipl10.bin haribote.sys $(HRBS) Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
@@ -89,6 +92,10 @@ haribote.img : ipl10.bin haribote.sys $(HRBS) Makefile
 	mcopy -i haribote.img beepdown.hrb ::
 	mcopy -i haribote.img color.hrb ::
 	mcopy -i haribote.img color2.hrb ::
+	mcopy -i haribote.img sosu.hrb ::
+	mcopy -i haribote.img sosu2.hrb ::
+	mcopy -i haribote.img ipl10.asm ::
+	mcopy -i haribote.img catipl.hrb ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

@@ -67,8 +67,6 @@ stars2.hrb : stars2.c a_nasm.o api.ld mystd.o Makefile
 
 noodle.hrb : noodle.o a_nasm.o api.ld mystd.o Makefile
 	gcc $(CFLAGS) -Wl,-Map=noodle.map -T api.ld -o $@ $< a_nasm.o mystd.o
-	@#gcc $(CFLAGS) -Wl,-Map=noodle.map -o noodle.o $< -c
-	@#ld -T api.ld -m elf_i386 -o $@ mystd.o noodle.o a_nasm.o --defsym stack=256k --defsym heap=1024k
 
 haribote.img : ipl10.bin haribote.sys $(HRBS) Makefile
 	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
@@ -113,3 +111,12 @@ run:
 		--type fdd \
 		--medium ./haribote.img
 	$(VBoxManage) startvm hariboteos
+
+clean:
+	-rm -f *.lst
+	-rm -f *.o
+	-rm -f *.map
+	-rm -f *.lst
+	-rm -f *.sys
+	-rm -f haribote.img
+

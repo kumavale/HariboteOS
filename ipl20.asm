@@ -1,7 +1,7 @@
 ; haribote-ipl
 ; TAB=4
 
-CYLS EQU 10                     ; #define CYLS 10
+CYLS EQU 20                     ; #define CYLS 20
 
         ORG     0x7c00          ; メモリ上の開始位置
 

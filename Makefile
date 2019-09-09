@@ -13,8 +13,8 @@ HRBS=hello.hrb hello2.hrb hello3.hrb hello4.hrb a.hrb winhelo.hrb winhelo2.hrb \
 default:
 	make img
 
-ipl10.bin : ipl10.asm Makefile
-	nasm ipl10.asm -o ipl10.bin -l ipl10.lst
+ipl20.bin : ipl20.asm Makefile
+	nasm -o $@ $< -l ipl20.lst
 
 nasmhead.bin : nasmhead.asm Makefile
 	nasm nasmhead.asm -o nasmhead.bin -l nasmhead.lst
@@ -72,8 +72,8 @@ sosu.hrb : sosu.c a_nasm.o api.ld mystd.o Makefile
 sosu2.hrb : sosu2.c a_nasm.o api.ld mystd.o Makefile
 	gcc $(CFLAGS) -Wl,--defsym,stack=128k -T api.ld -o $@ $< a_nasm.o mystd.o
 
-haribote.img : ipl10.bin haribote.sys $(HRBS) Makefile
-	mformat -f 1440 -C -B ipl10.bin -i haribote.img ::
+haribote.img : ipl20.bin haribote.sys $(HRBS) moji.txt Makefile
+	mformat -f 1440 -C -B ipl20.bin -i haribote.img ::
 	mcopy -i haribote.img haribote.sys ::
 	mcopy -i haribote.img mystd.c ::
 	mcopy -i haribote.img hello.hrb ::
@@ -95,17 +95,14 @@ haribote.img : ipl10.bin haribote.sys $(HRBS) Makefile
 	mcopy -i haribote.img color2.hrb ::
 	mcopy -i haribote.img sosu.hrb ::
 	mcopy -i haribote.img sosu2.hrb ::
-	mcopy -i haribote.img ipl10.asm ::
 	mcopy -i haribote.img catipl.hrb ::
 	mcopy -i haribote.img cat.hrb ::
 	mcopy -i haribote.img iroha.hrb ::
 	mcopy -i haribote.img nihongo.fnt ::
+	mcopy -i haribote.img moji.txt ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 
-
-asm:
-	make -r ipl10.bin
 
 img:
 	make -r haribote.img
@@ -124,10 +121,11 @@ run:
 	$(VBoxManage) startvm hariboteos
 
 clean:
+	-rm -f *.bin
 	-rm -f *.lst
-	-rm -f *.o
 	-rm -f *.map
 	-rm -f *.lst
+	-rm -f *.o
 	-rm -f *.sys
 	-rm -f haribote.img
 

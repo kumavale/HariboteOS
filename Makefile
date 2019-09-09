@@ -8,7 +8,7 @@ OBJS_BOOTPACK=nasmfunc.o hankaku.o mystd.o graphic.o dsctbl.o int.o fifo.o \
 HRBS=hello.hrb hello2.hrb hello3.hrb hello4.hrb a.hrb winhelo.hrb winhelo2.hrb \
 	 winhelo3.hrb star1.hrb stars.hrb stars2.hrb lines.hrb walk.hrb noodle.hrb \
 	 beepdown.hrb color.hrb color2.hrb sosu.hrb sosu2.hrb catipl.hrb cat.hrb \
-	 iroha.hrb
+	 iroha.hrb notrec.hrb
 
 default:
 	make img
@@ -95,12 +95,12 @@ haribote.img : ipl20.bin haribote.sys $(HRBS) sjis.txt euc.txt Makefile
 	mcopy -i haribote.img color2.hrb ::
 	mcopy -i haribote.img sosu.hrb ::
 	mcopy -i haribote.img sosu2.hrb ::
-	mcopy -i haribote.img catipl.hrb ::
 	mcopy -i haribote.img cat.hrb ::
 	mcopy -i haribote.img iroha.hrb ::
 	mcopy -i haribote.img nihongo.fnt ::
 	mcopy -i haribote.img sjis.txt ::
 	mcopy -i haribote.img euc.txt ::
+	mcopy -i haribote.img notrec.hrb ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

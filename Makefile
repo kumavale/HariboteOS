@@ -72,7 +72,7 @@ sosu.hrb : sosu.c a_nasm.o api.ld mystd.o Makefile
 sosu2.hrb : sosu2.c a_nasm.o api.ld mystd.o Makefile
 	gcc $(CFLAGS) -Wl,--defsym,stack=128k -T api.ld -o $@ $< a_nasm.o mystd.o
 
-haribote.img : ipl20.bin haribote.sys $(HRBS) moji.txt Makefile
+haribote.img : ipl20.bin haribote.sys $(HRBS) sjis.txt euc.txt Makefile
 	mformat -f 1440 -C -B ipl20.bin -i haribote.img ::
 	mcopy -i haribote.img haribote.sys ::
 	mcopy -i haribote.img mystd.c ::
@@ -99,7 +99,8 @@ haribote.img : ipl20.bin haribote.sys $(HRBS) moji.txt Makefile
 	mcopy -i haribote.img cat.hrb ::
 	mcopy -i haribote.img iroha.hrb ::
 	mcopy -i haribote.img nihongo.fnt ::
-	mcopy -i haribote.img moji.txt ::
+	mcopy -i haribote.img sjis.txt ::
+	mcopy -i haribote.img euc.txt ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 

@@ -703,12 +703,19 @@ void cmd_langmode(struct CONSOLE *cons, char *cmdline, int check)
 {
     struct TASK *task = task_now();
     unsigned char mode = cmdline[9] - '0';
+    static char *s[3] = {
+        " 0: English ASCII\n",
+        " 1: Japanese SJIS\n",
+        " 2: Japanese EUC\n"
+    };
 
-    if (check || cmdline[9] == 0) {
-        cons_putstr0(cons, task->langmode == 0 ? "* 0: en\n": "  0: en\n");
-        cons_putstr0(cons, task->langmode == 1 ? "* 1: jp\n": "  1: jp\n");
+    if (check) {
+        for (int i = 0; i < 3; ++i) {
+            cons_putchar(cons, task->langmode == i ? '*' : ' ', 1);
+            cons_putstr0(cons, s[i]);
+        }
     } else {
-        if (mode <= 1) {
+        if (mode <= 2) {
             task->langmode = mode;
         } else {
             cons_putstr0(cons, "Invalid mode number.\n");

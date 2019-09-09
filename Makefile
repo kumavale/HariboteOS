@@ -1,10 +1,10 @@
 qemu-system-i386="/mnt/c/Program Files/qemu/qemu-system-i386.exe"
 VBoxManage=VBoxManage.exe
 args=-drive format=raw,if=floppy,file=
-CFLAGS=-fno-pie -march=i486 -m32 -nostdlib -fno-builtin -fno-stack-protector -Wall
+CFLAGS=-fno-pie -march=i486 -m32 -nostdlib -fbuiltin -fno-stack-protector -Wall
 OBJS_BOOTPACK=nasmfunc.o hankaku.o mystd.o graphic.o dsctbl.o int.o fifo.o \
 			  keyboard.o mouse.o memory.o sheet.o timer.o mtask.o window.o \
-			  console.o file.o
+			  console.o file.o tek.o
 HRBS=hello.hrb hello2.hrb hello3.hrb hello4.hrb a.hrb winhelo.hrb winhelo2.hrb \
 	 winhelo3.hrb star1.hrb stars.hrb stars2.hrb lines.hrb walk.hrb noodle.hrb \
 	 beepdown.hrb color.hrb color2.hrb sosu.hrb sosu2.hrb catipl.hrb cat.hrb \

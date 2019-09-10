@@ -1,8 +1,8 @@
-# 備忘録
-[はりぼてOS](https://www.amazon.co.jp/dp/B00IR1HYI0)を作り, 学ぶ  
-筆者様の作ったツールは使用しない.  
+# Haribote OS
+["30日でできる! OS自作入門"](https://www.amazon.co.jp/dp/B00IR1HYI0) developed by WSL  
+Implement without using 'tolset'  
 
-## 環境
+## Environment
 Windows10 HOME 1903  
 Arch linux on WSL  
 VirtualBox
@@ -40,6 +40,5 @@ VBoxManage.exe -v
 5.2.22r126460
 ```
 
-nasm, mtools, gcc, make等はWSL(Arch)のものを使用する.  
-~~qemu~~ VirtualBox のみWindows版を使用.  
+Use Windows ~~qemu~~ VirtualBox for execution.  
 

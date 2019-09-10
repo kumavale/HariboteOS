@@ -8,7 +8,7 @@ OBJS_BOOTPACK=nasmfunc.o hankaku.o mystd.o graphic.o dsctbl.o int.o fifo.o \
 HRBS=hello.hrb hello2.hrb hello3.hrb hello4.hrb a.hrb winhelo.hrb winhelo2.hrb \
 	 winhelo3.hrb star1.hrb stars.hrb stars2.hrb lines.hrb walk.hrb noodle.hrb \
 	 beepdown.hrb color.hrb color2.hrb sosu.hrb sosu2.hrb catipl.hrb cat.hrb \
-	 iroha.hrb notrec.hrb bball.hrb
+	 iroha.hrb notrec.hrb bball.hrb invader.hrb
 
 default:
 	make img
@@ -72,36 +72,16 @@ sosu.hrb : sosu.c a_nasm.o api.ld mystd.o Makefile
 sosu2.hrb : sosu2.c a_nasm.o api.ld mystd.o Makefile
 	gcc $(CFLAGS) -Wl,--defsym,stack=128k -T api.ld -o $@ $< a_nasm.o mystd.o
 
+invader.hrb : invader.c a_nasm.o api.ld mystd.o Makefile
+	gcc $(CFLAGS) -Wl,--defsym,stack=128k -Wl,-Map=invader.map -T api.ld -o $@ $< a_nasm.o mystd.o
+
 haribote.img : ipl20.bin haribote.sys $(HRBS) sjis.txt euc.txt Makefile
 	mformat -f 1440 -C -B ipl20.bin -i haribote.img ::
 	mcopy -i haribote.img haribote.sys ::
-	mcopy -i haribote.img mystd.c ::
-	mcopy -i haribote.img hello.hrb ::
-	mcopy -i haribote.img hello2.hrb ::
-	mcopy -i haribote.img hello3.hrb ::
-	mcopy -i haribote.img hello4.hrb ::
-	mcopy -i haribote.img a.hrb ::
-	mcopy -i haribote.img winhelo.hrb ::
-	mcopy -i haribote.img winhelo2.hrb ::
-	mcopy -i haribote.img winhelo3.hrb ::
-	mcopy -i haribote.img star1.hrb ::
-	mcopy -i haribote.img stars.hrb ::
-	mcopy -i haribote.img stars2.hrb ::
-	mcopy -i haribote.img lines.hrb ::
-	mcopy -i haribote.img walk.hrb ::
-	mcopy -i haribote.img noodle.hrb ::
-	mcopy -i haribote.img beepdown.hrb ::
-	mcopy -i haribote.img color.hrb ::
-	mcopy -i haribote.img color2.hrb ::
-	mcopy -i haribote.img sosu.hrb ::
-	mcopy -i haribote.img sosu2.hrb ::
-	mcopy -i haribote.img cat.hrb ::
-	mcopy -i haribote.img iroha.hrb ::
 	mcopy -i haribote.img nihongo.fnt ::
 	mcopy -i haribote.img sjis.txt ::
 	mcopy -i haribote.img euc.txt ::
-	mcopy -i haribote.img notrec.hrb ::
-	mcopy -i haribote.img bball.hrb ::
+	mcopy -i haribote.img $(HRBS) ::
 	@echo -e "\033[36mCompiled complete!\033[m"
 	@echo
 
